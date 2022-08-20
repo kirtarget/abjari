@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.first-card {
+  background-image: url("/IMG_0259.JPG");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @apply row-span-2 h-screen relative;
+}
+.second-card {
+  background-image: url("/IMG_0257.JPG");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @apply w-full h-screen relative;
+}
+.third-card {
+  background-image: url("/IMG_0215.JPG");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @apply w-full h-screen relative;
+}
+.big-card {
+  @apply rounded-3xl transition duration-1000;
+}
+.big-card:hover {
+  transform: scale(1.02);
+}
+.big-card-layout {
+  @apply grid p-4 max-w-5xl gap-5 mt-10 sm:grid-cols-2 grid-cols-1 h-screen transition duration-1000;
+}
