@@ -30,5 +30,5 @@
   transform: scale(1.02);
 }
 .big-card-layout {
-  @apply grid p-4 max-w-5xl gap-5 mt-10 sm:grid-cols-2 grid-cols-1 h-screen transition duration-1000;
+  @apply grid p-4 max-w-5xl gap-5 mt-10 sm:grid-cols-2 grid-cols-1 h-full sm:h-screen;
 }
