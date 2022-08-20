@@ -14,14 +14,14 @@ const HorizontalScroll = () => {
     {
       id: 2,
       title: "shortsleeve rashguard",
-      img: "/IMG_0259.jpg",
+      img: "/IMG_0259.jpeg",
       description: "For every training",
       price: 500,
     },
     {
       id: 3,
       title: "shorts",
-      img: "/IMG_0257.jpg",
+      img: "/IMG_0257.jpeg",
       description: "For every training",
       price: 500,
     },
