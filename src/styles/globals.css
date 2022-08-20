@@ -17,7 +17,7 @@
   @apply w-full h-screen relative;
 }
 .third-card {
-  background-image: url("/IMG_0215.JPG");
+  background-image: url("/IMG_0215.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
