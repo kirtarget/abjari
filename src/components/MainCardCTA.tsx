@@ -1,12 +1,11 @@
+import { IMainCardProps } from "../lib/types/MainPage"
 import Button from "./UI/Button"
 
-const MainCardCTA = () => {
+const MainCardCTA = ({ description, title }: IMainCardProps) => {
   return (
     <div className=" m-8 flex flex-col justify-start w-72">
-      <span className="font-black text-white text-3xl">BEYOND THE LIMITS</span>
-      <span className="text-white">
-        a unique product that empowers athletes with the courage and confidence
-      </span>
+      <span className="font-black text-white text-3xl">{title}</span>
+      <span className="text-white">{description}</span>
       <Button>
         <span className=" opacity-100">SHOP NOW</span>
       </Button>

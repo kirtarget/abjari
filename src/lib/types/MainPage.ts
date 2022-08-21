@@ -8,3 +8,8 @@ export interface IScrollItemProps {
 export interface IChildren {
   children: React.ReactNode
 }
+export interface IMainCardProps {
+  title: string
+  description: string
+  id: number
+}
