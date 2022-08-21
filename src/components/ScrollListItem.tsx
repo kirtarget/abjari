@@ -10,7 +10,7 @@ const ScrollListItem = ({
 }: IScrollItemProps) => {
   return (
     <>
-      <div className="m-6">
+      <div className="m-6 lg:px-10">
         <div className="w-60 h-96 rounded-2xl border-stone-700 shadow-2xl hover:scale-105 transition duration-1000 my-2">
           <Image
             src={img}
