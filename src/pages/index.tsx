@@ -8,7 +8,7 @@ import ItemShowCase from "../components/ItemShowCase"
 
 const Home: NextPage = () => {
   return (
-    <div className=" flex flex-col justify-center ">
+    <div className=" flex flex-col justify-center align-middle ">
       <Header />
       <ItemShowCase />
       <HorizontalScroll />

@@ -10,9 +10,14 @@ const ScrollListItem = ({
 }: IScrollItemProps) => {
   return (
     <>
-      <div>
-        <div className="w-60 h-96 bg-blue-300 rounded-2xl border-1 border-stone-700 shadow-2xl overflow-hidden">
-          <Image src={img} width="240px" height="384px" />
+      <div className="m-6">
+        <div className="w-60 h-96 rounded-2xl border-stone-700 shadow-2xl hover:scale-105 transition duration-1000 my-2">
+          <Image
+            src={img}
+            width="240px"
+            height="384px"
+            className="rounded-2xl"
+          />
         </div>
         <h1 className="font-bold capitalize">{title}</h1>
         <h1 className="font-regular capitalize">${price}</h1>

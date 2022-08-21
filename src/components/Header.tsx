@@ -18,7 +18,7 @@ const Header = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <header className="opacity-95 flex w-full border-1 items-center h-20 px-8 min-w-fit rounded-b-3xl shadow-xl shadow-gray-200 relative">
+      <header className="mx-auto opacity-95 flex w-full border-1 items-center h-20 px-8 min-w-fit rounded-b-3xl shadow-xl shadow-gray-200 relative">
         {/* Logo */}
         <Link href="/">
           <Image height={"17px"} width="100px" src="/logo.png" />

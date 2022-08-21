@@ -9,28 +9,28 @@ const HorizontalScroll = () => {
       title: "Longsleeve rashguard",
       img: "/IMG_0215.jpg",
       description: "For every training",
-      price: 500,
+      price: 114,
     },
     {
       id: 2,
       title: "shortsleeve rashguard",
       img: "/IMG_0259.jpeg",
       description: "For every training",
-      price: 500,
+      price: 99,
     },
     {
       id: 3,
       title: "shorts",
       img: "/IMG_0257.jpeg",
       description: "For every training",
-      price: 500,
+      price: 89,
     },
   ]
   return (
-    <div className="px-4 pt-6  w-full">
+    <div className="px-4 pt-6  w-full lg:px-40">
       <h5 className=" font-medium">Strength and Durability</h5>
       <h1 className="font-black text-2xl pb-4">Armor for every warrior</h1>
-      <div className="flex gap-6 overflow-scroll  whitespace-nowrap">
+      <div className="flex gap-6 overflow-scroll  whitespace-nowrap no-scrollbar ">
         {items.map((item) => (
           <ScrollListItem
             key={item.id}
