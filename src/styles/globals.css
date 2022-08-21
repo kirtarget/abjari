@@ -19,28 +19,28 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  @apply row-span-2 h-screen relative sm:h-screen;
+  @apply sm:row-span-2 h-screen sm:h-full;
 }
 .second-card {
   background-image: url("/IMG_0257.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  @apply w-full h-screen relative;
+  @apply w-full sm:h-full h-screen;
 }
 .third-card {
   background-image: url("/IMG_0215.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  @apply w-full h-screen relative;
+  @apply w-full sm:h-full h-screen;
 }
 .big-card {
-  @apply rounded-3xl transition duration-1000;
+  @apply rounded-3xl transition duration-1000 flex  items-end;
 }
 .big-card:hover {
   transform: scale(1.02);
 }
 .big-card-layout {
-  @apply grid p-4 lg:px-40  gap-5 mt-10 sm:grid-cols-2 grid-cols-1 h-full sm:h-screen;
+  @apply grid p-4 lg:px-40  gap-5 mt-10 sm:grid-cols-2 sm:grid-rows-2 sm:h-[140vh];
 }
