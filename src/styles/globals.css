@@ -17,6 +17,9 @@
 .first-card {
   @apply sm:row-span-2 h-screen sm:h-full;
 }
+.second-card {
+  @apply w-full sm:h-full h-screen;
+}
 
 .big-card {
   @apply rounded-3xl transition duration-1000 flex  items-end;

@@ -4,7 +4,7 @@ import MainCardCTA from "./MainCardCTA"
 const BigCard = ({ id, img, title, description }: IBigCardProps) => {
   return (
     <div
-      className={`big-card ${id === 1 ? "first-card" : ""}`}
+      className={`big-card ${id === 1 ? "first-card" : "second-card"}`}
       style={{
         backgroundImage: `url(${img})`,
         backgroundPosition: "center",
