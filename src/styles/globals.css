@@ -15,26 +15,9 @@
 }
 
 .first-card {
-  background-image: url("/IMG_0259.jpeg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   @apply sm:row-span-2 h-screen sm:h-full;
 }
-.second-card {
-  background-image: url("/IMG_0257.jpeg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  @apply w-full sm:h-full h-screen;
-}
-.third-card {
-  background-image: url("/IMG_0215.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  @apply w-full sm:h-full h-screen;
-}
+
 .big-card {
   @apply rounded-3xl transition duration-1000 flex  items-end;
 }

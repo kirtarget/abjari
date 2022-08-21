@@ -13,3 +13,10 @@ export interface IMainCardProps {
   description: string
   id: number
 }
+
+export interface IBigCardProps {
+  id: number
+  img: string
+  title: string
+  description: string
+}

@@ -21,7 +21,9 @@ const Header = () => {
       <header className="mx-auto opacity-95 flex w-full border-1 items-center h-20 px-8 min-w-fit rounded-b-3xl shadow-xl shadow-gray-200 justify-between">
         {/* Logo */}
         <Link href="/">
-          <Image height={"17px"} width="100px" src="/logo.png" />
+          <a>
+            <Image height="17px" width="100px" src="/logo.png" />
+          </a>
         </Link>
 
         <Navbar
