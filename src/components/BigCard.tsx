@@ -1,5 +1,5 @@
 import { IBigCardProps } from "../lib/types/MainPage"
-import MainCardCTA from "./MainCardCTA"
+import MainCardCTA from "./UI/MainCardCTA"
 
 const BigCard = ({ id, img, title, description }: IBigCardProps) => {
   return (

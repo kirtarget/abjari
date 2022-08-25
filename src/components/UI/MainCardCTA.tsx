@@ -1,5 +1,5 @@
-import { IMainCardProps } from "../lib/types/MainPage"
-import Button from "./UI/Button"
+import { IMainCardProps } from "../../lib/types/MainPage"
+import Button from "./Button"
 
 const MainCardCTA = ({ description, title }: IMainCardProps) => {
   return (

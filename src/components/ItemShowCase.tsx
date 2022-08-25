@@ -1,4 +1,3 @@
-import MainCardCTA from "./MainCardCTA"
 import { IBigCardProps } from "../lib/types/MainPage"
 import BigCard from "./BigCard"
 

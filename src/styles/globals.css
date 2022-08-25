@@ -12,21 +12,18 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-}
+  .first-card {
+    @apply sm:row-span-2;
+  }
+  /* .second-card {
+    @apply md:h-full;
+  } */
 
-.first-card {
-  @apply sm:row-span-2 h-screen sm:h-full;
-}
-.second-card {
-  @apply w-full sm:h-full h-screen;
-}
+  .big-card {
+    @apply rounded-3xl transition duration-1000 flex  items-end hover:scale-[101%] h-screen md:h-full;
+  }
 
-.big-card {
-  @apply rounded-3xl transition duration-1000 flex  items-end;
-}
-.big-card:hover {
-  transform: scale(1.02);
-}
-.big-card-layout {
-  @apply grid p-4 lg:px-40  gap-5 mt-10 sm:grid-cols-2 sm:grid-rows-2 sm:h-[140vh];
+  .big-card-layout {
+    @apply grid p-4   gap-5 mt-10 md:grid-cols-2 md:grid-rows-2 md:h-[140vh];
+  }
 }
