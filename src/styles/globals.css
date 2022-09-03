@@ -20,7 +20,7 @@
   } */
 
   .big-card {
-    @apply rounded-3xl transition duration-1000 flex  items-end hover:scale-[101%] h-screen md:h-full;
+    @apply rounded-3xl  transition duration-1000 flex  items-end hover:scale-[101%] h-screen md:h-full;
   }
 
   .big-card-layout {
