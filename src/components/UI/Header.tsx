@@ -2,7 +2,7 @@ import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import Navbar from "./Navbar"
+import Navbar from "../Navbar"
 
 const Header = () => {
   const [activeSearch, setActiveSearch] = useState(false)
@@ -18,7 +18,7 @@ const Header = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
-      <header className="mx-auto opacity-95 flex w-full border-1 items-center h-20 px-8 min-w-fit rounded-b-3xl shadow-xl shadow-gray-200 justify-between">
+      <header className="mx-auto opacity-95 flex w-full border-1 items-center h-20 px-8 min-w-fit rounded-b-3xl shadow-xl shadow-gray-200 justify-between md:mb-2">
         {/* Logo */}
         <Link href="/">
           <a>

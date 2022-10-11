@@ -6,15 +6,39 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Item {
-  id Int @id @default(autoincrement())
-  name String
-  price Int
-  mainImageUrl String
-  images String[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  price       Float
+  mainImage   String
+  images      String[]
   description String
+  crtsIDs     Cart[]   @relation(fields: [cartIDs], references: [id])
+  cartIDs     String[] @db.ObjectId
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  cart      Cart?
+}
+
+model Cart {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  itemIDs String[] @db.ObjectId
+  items   Item[]   @relation(fields: [itemIDs], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String   @unique @db.ObjectId
+}
+
+enum Role {
+  USER
+  ADMIN
 }

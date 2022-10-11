@@ -1,18 +1,50 @@
 import { PrismaClient } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
+import { createClient } from "@supabase/supabase-js"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_KEY!
+)
+
+interface Item {
+  id?: any
+  name: string
+  price: number
+  mainImage: string
+  images: string[]
+  description: string
+}
 
 const prisma = new PrismaClient()
 
-export const handle = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = {
-    name: req.body.name,
-    price: 22.22,
-    mainImageUrl: "",
-    images: ["j"],
-    description: "",
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  // Добавление предмета
+  if (req.method === "POST") {
+    try {
+      const item: Item = {
+        name: req.body.name,
+        description: req.body.description,
+        price: Number(req.body.price),
+        mainImage: req.body.mainImage,
+        images: ["sjsj", "hdhd"],
+      }
+
+      await prisma.item.create({ data: item })
+
+      return res.status(200)
+    } catch (e) {
+      res.status(420).send(e)
+    }
   }
 
-  await prisma.item.create({ data })
-
-  res.status(200)
+  // Получение всех предметов
+  if (req.method === "GET") {
+    try {
+      const items: Item[] = await prisma.item.findMany()
+      res.json(items)
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  }
 }

@@ -1,26 +1,29 @@
-import React, { ReactNode, useRef } from "react"
+import React from "react"
+import AddItemForm from "../../components/Forms/AddItemForm"
+import ItemsLoader from "./ItemsLoader"
+import Layout from "../../components/UI/Layout"
 
-export default function AddItem(): ReactNode {
-  const nameRef = useRef<HTMLInputElement>(null)
+interface Item {
+  id?: any
+  name: string
+  price: number
+  mainImage: string
+  images: string[]
+  description: string
+}
 
-  const onAddItemHandler = async (e: any) => {
-    const data = { name: nameRef.current?.value }
-    const result = await fetch("/api/items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-  }
-
+export default function AdminPage(): JSX.Element {
   return (
-    <div className="flex gap-4">
-      <form onSubmit={onAddItemHandler} className="flex flex-col p-2 gap-2">
-        <label htmlFor="name">Название модели</label>
-        <input ref={nameRef} id="name" placeholder="name" />
-        <button className="border-2 border-gray-800 rounded 2xl" type="submit">
-          Отправить
-        </button>
-      </form>
-    </div>
+    <Layout>
+      <div className="mx-4">
+        <h1>Админ-панель</h1>
+
+        <h2>Добавление товара:</h2>
+        <AddItemForm />
+
+        <h2>Список товаров:</h2>
+        <ItemsLoader />
+      </div>
+    </Layout>
   )
 }

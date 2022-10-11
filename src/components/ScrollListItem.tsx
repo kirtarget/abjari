@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Link from "next/link"
 import { IScrollItemProps } from "../lib/types/MainPage"
 import Button from "./UI/Button"
 
@@ -16,7 +16,11 @@ const ScrollListItem = ({
         </div>
         <h1 className="font-bold capitalize">{title}</h1>
         <h1 className="font-regular capitalize">${price}</h1>
-        <Button>Shop Now</Button>
+        <Link href="/catalog">
+          <a>
+            <Button>Shop Now</Button>
+          </a>
+        </Link>
       </div>
     </>
   )
