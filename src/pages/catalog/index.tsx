@@ -5,7 +5,7 @@ import { trpc } from "../../utils/trpc"
 import CatalogItem from "../../components/catalog/CatalogItem"
 import { useCartStore } from "../../store/cartStore"
 
-const catalog = () => {
+const Catalog = () => {
   let { data, isLoading } = trpc.items.useQuery({ id: "all" })
 
   const state = useBearStore((state) => state.items)
@@ -47,4 +47,4 @@ const catalog = () => {
   )
 }
 
-export default catalog
+export default Catalog

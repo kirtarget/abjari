@@ -44,7 +44,7 @@ const CartItem = ({
   )
 }
 
-const cart = () => {
+const Cart = () => {
   const state = useCartStore()
   const hasMounted = useHasMounted()
 
@@ -76,4 +76,4 @@ const cart = () => {
   )
 }
 
-export default cart
+export default Cart
