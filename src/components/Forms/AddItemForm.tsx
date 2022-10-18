@@ -127,7 +127,7 @@ const AddItemForm = (): JSX.Element => {
 
         <div className="flex flex-wrap gap-2">
           {imagesArray?.map((i) => (
-            <img className="w-36" src={i} />
+            <img key={Math.random()} className="w-36" src={i} />
           ))}
         </div>
         <div
