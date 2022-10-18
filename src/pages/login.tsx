@@ -26,7 +26,7 @@ const Login = () => {
       </>
     )
   }
-  return <Layout>{content}</Layout>
+  return <>{content}</>
 }
 
 export default Login

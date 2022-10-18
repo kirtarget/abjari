@@ -13,32 +13,21 @@ const CartItem = ({
 }: Item) => {
   const state = useCartStore()
   return (
-    <div className="border-2 rounded-md w-full grid grid-cols-5 items-center justify-between">
+    <div className="border-2 rounded-md w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 grid-rows-2  md:grid-rows-1 items-center  px-2">
       <img className="h-24" src={mainImage} alt="" />
       <p className="px-2">{name}</p>
-      <p className="font-bold">
-        {price}, {state.getUniqSum(id)}
+      <p className="md:text-center sm:text-right">{price}₾</p>
+      <p className="font-bold text-slate-700">
+        <button className="px-2" onClick={() => state.decreaseItemQuantity(id)}>
+          -
+        </button>
+        {state.getItemQuantity(id)}
+        <button className="px-2" onClick={() => state.increaseItemQuantity(id)}>
+          +
+        </button>
       </p>
-      <p className="font-bold text-slate-700">x{state.getItemQuantity(id)}</p>
-      <div className="flex flex-col gap-2">
-        <button
-          className="bg-red-400 w-24 rounded-md"
-          onClick={() => state.removeFromCart(id)}
-        >
-          Remove
-        </button>
-        <button
-          className="bg-green-400 w-24 rounded-md"
-          onClick={() => state.increaseItemQuantity(id)}
-        >
-          Add
-        </button>
-        <button
-          className="bg-blue-400 w-24 rounded-md"
-          onClick={() => state.decreaseItemQuantity(id)}
-        >
-          Decrease
-        </button>
+      <div className="flex font-bold flex-col gap-2 items-end justify-center sm:col-span-1  py-3 col-span-2 md:px-1">
+        {state.getUniqSum(id)}₾
       </div>
     </div>
   )
@@ -49,30 +38,32 @@ const Cart = () => {
   const hasMounted = useHasMounted()
 
   return (
-    <Layout>
-      <div className="flex flex-col gap-2">
-        {hasMounted && state.cart.length !== 0 ? (
-          state.cart.map((item) => {
-            const product = state.getCartItem(item.id)
-            return (
-              <CartItem
-                key={product.id}
-                name={product.name}
-                id={product.id}
-                description={product.description}
-                price={product.price}
-                mainImage={product.mainImage}
-                images={product.images}
-              />
-            )
-          })
-        ) : (
-          <p>The cart is empty</p>
-        )}
+    <div className="flex flex-col gap-2 mt-2 mb-2 h-fit">
+      {hasMounted && state.cart.length !== 0 ? (
+        state.cart.map((item) => {
+          const product = state.getCartItem(item.id)
 
-        {hasMounted && state.getFullSum()}
+          return (
+            <CartItem
+              key={product.id}
+              name={product.name}
+              id={product.id}
+              description={product.description}
+              price={product.price}
+              mainImage={product.mainImage}
+              images={product.images}
+            />
+          )
+        })
+      ) : (
+        <p>The cart is empty</p>
+      )}
+
+      <div className="flex justify-between pt-2">
+        <p>Total:</p>
+        <p>{hasMounted && state.getFullSum()}₾</p>
       </div>
-    </Layout>
+    </div>
   )
 }
 

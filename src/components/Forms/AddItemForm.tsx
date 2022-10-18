@@ -99,6 +99,8 @@ const AddItemForm = (): JSX.Element => {
       descriptionRef.current!.value =
       priceRef.current!.value =
         ""
+
+    setImagesArray([])
   }
 
   return (
@@ -188,7 +190,7 @@ const AddItemForm = (): JSX.Element => {
           <button
             className="border-2 border-gray-800 rounded 2xl"
             type="submit"
-            disabled={!isImageUploading}
+            disabled={isImageUploading}
           >
             Отправить
           </button>

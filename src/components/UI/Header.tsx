@@ -29,7 +29,7 @@ const Header = () => {
   }
 
   return (
-    <>
+    <div className="border-2">
       <Head>
         <title>Abjari</title>
 
@@ -128,7 +128,7 @@ const Header = () => {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   )
 }
 

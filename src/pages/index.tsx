@@ -5,10 +5,10 @@ import Layout from "../components/UI/Layout"
 
 const Home: NextPage = () => {
   return (
-    <Layout>
+    <>
       <ItemShowCase />
       <HorizontalScroll />
-    </Layout>
+    </>
   )
 }
 

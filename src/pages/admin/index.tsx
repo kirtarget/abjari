@@ -14,16 +14,14 @@ interface Item {
 
 export default function AdminPage(): JSX.Element {
   return (
-    <Layout>
-      <div className="mx-4">
-        <h1>Админ-панель</h1>
+    <div className="mx-4">
+      <h1>Админ-панель</h1>
 
-        <h2>Добавление товара:</h2>
-        <AddItemForm />
+      <h2>Добавление товара:</h2>
+      <AddItemForm />
 
-        <h2>Список товаров:</h2>
-        <ItemsLoader />
-      </div>
-    </Layout>
+      <h2>Список товаров:</h2>
+      <ItemsLoader />
+    </div>
   )
 }
