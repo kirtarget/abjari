@@ -12,6 +12,7 @@ const nextConfig = {
     domains: [
       "ywvesznjsvtfseqcelai.supabase.co",
       "ywvesznjsvtfseqcelai.supabase.in",
+      "res.cloudinary.com",
       "trpc.io",
     ],
   },

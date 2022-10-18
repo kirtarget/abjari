@@ -7,6 +7,8 @@ export interface IScrollItemProps {
 }
 export interface IChildren {
   children: React.ReactNode
+  className: string
+  onClick?: (arg?: any) => void
 }
 export interface IMainCardProps {
   title: string

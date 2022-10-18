@@ -1,5 +1,5 @@
 import { IMainCardProps } from "../../lib/types/MainPage"
-import Button from "./Button"
+import Button from "../UI/Button"
 import Link from "next/link"
 
 const MainCardCTA = ({ description, title }: IMainCardProps) => {
@@ -9,7 +9,7 @@ const MainCardCTA = ({ description, title }: IMainCardProps) => {
       <span className="text-white">{description}</span>
       <Link href="/catalog">
         <a className=" opacity-100">
-          <Button>SHOP NOW</Button>
+          <Button className={""}>SHOP NOW</Button>
         </a>
       </Link>
     </div>

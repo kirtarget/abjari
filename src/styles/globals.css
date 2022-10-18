@@ -24,18 +24,8 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-  .first-card {
-    @apply sm:row-span-2;
-  }
-  /* .second-card {
-    @apply md:h-full;
-  } */
-
-  .big-card {
-    @apply rounded-3xl  transition duration-1000 flex  items-end hover:scale-[101%] h-screen md:h-full;
-  }
 
   .big-card-layout {
-    @apply grid p-4   gap-5 mt-10 md:grid-cols-2 md:grid-rows-2 md:h-[140vh];
+    @apply grid p-4 gap-5 mt-10 md:grid-cols-2 md:grid-rows-2 md:h-[140vh] md:w-[80%] w-[90%];
   }
 }

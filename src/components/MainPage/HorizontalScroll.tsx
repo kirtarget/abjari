@@ -1,5 +1,5 @@
 import ScrollListItem from "./ScrollListItem"
-import { IScrollItemProps } from "../lib/types/MainPage"
+import { IScrollItemProps } from "../../lib/types/MainPage"
 
 const HorizontalScroll = () => {
   // * ЗАМЕНИТЬ НА HTTP-Запрос
@@ -30,7 +30,7 @@ const HorizontalScroll = () => {
     <div className="px-4 pt-6  w-full lg:px-20">
       <h5 className=" font-medium">Strength and Durability</h5>
       <h1 className="font-black text-2xl pb-4">Armor for every warrior</h1>
-      <div className="flex gap-6 overflow-scroll  no-scrollbar ">
+      <div className="flex gap-6 overflow-scroll  no-scrollbar justify-between">
         {items.map((item) => (
           <ScrollListItem
             key={item.id}

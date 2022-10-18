@@ -5,24 +5,29 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//TODO Перенести всё на Supabase
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+//TODO Нужно добавить больше полей по типу материала и всякого такого
 model Item {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @unique
+  id          Int      @id @default(autoincrement())
+  name        String
   price       Float
   mainImage   String
   images      String[]
   description String
-  crtsIDs     Cart[]   @relation(fields: [cartIDs], references: [id])
-  cartIDs     String[] @db.ObjectId
+  // cartsIDs    Cart[]   @relation(fields: [cartIDs], references: [id])
+  // cartIDs     Int[]
+  Cart        Cart?    @relation(fields: [cartId], references: [id])
+  cartId      Int?
 }
 
+//TODO Нужно понять как создавать пользователя без регистрации
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   email     String   @unique
   name      String?
@@ -31,11 +36,11 @@ model User {
 }
 
 model Cart {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  itemIDs String[] @db.ObjectId
-  items   Item[]   @relation(fields: [itemIDs], references: [id])
+  id      Int      @id @default(autoincrement())
+  itemIDs String[]
+  items   Item[]
   user    User     @relation(fields: [userId], references: [id])
-  userId  String   @unique @db.ObjectId
+  userId  Int      @unique
 }
 
 enum Role {

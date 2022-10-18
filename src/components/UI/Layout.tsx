@@ -4,9 +4,9 @@ import { ReactNode } from "react"
 
 const Layout = ({ children }: { children: ReactNode }): JSX.Element => {
   return (
-    <div className=" flex flex-col justify-center align-middle ">
+    <div className=" flex flex-col justify-between h-screen align-middle ">
       <Header />
-      {children}
+      <div className="flex flex-col w-full">{children}</div>
       <Footer />
     </div>
   )
