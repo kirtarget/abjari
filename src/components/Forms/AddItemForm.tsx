@@ -184,14 +184,15 @@ const AddItemForm = (): JSX.Element => {
           placeholder="Leave a description..."
         ></textarea>
 
-        {!isImageUploading && (
+        {
           <button
             className="border-2 border-gray-800 rounded 2xl"
             type="submit"
+            disabled={!isImageUploading}
           >
             Отправить
           </button>
-        )}
+        }
         {error && <p>{error}</p>}
         {mutation.error && (
           <p>Something went wrong! {mutation.error.message}</p>
