@@ -7,6 +7,43 @@ import { useSession } from "next-auth/react"
 import { Item } from "../../lib/types/apiTypes"
 import { useCartStore } from "../../store/cartStore"
 import { useHasMounted } from "../../Hooks/hasMounted"
+import { CartItem } from "../cart/CartItem"
+
+function OrderForm() {
+  const cart = useCartStore((state) => state.cart)
+  const getCartItem = useCartStore((state) => state.getCartItem)
+  const hasMounted = useHasMounted()
+
+  return (
+    <div
+      id="drawer-left-example"
+      className="hidden fixed right-0 z-40 h-screen p-4 overflow-y-auto bg-slate-200 w-[40%] dark:bg-gray-800"
+      aria-labelledby="drawer-left-label"
+    >
+      <div className="flex flex-col gap-2 mt-2 mb-2 h-fit">
+        {hasMounted && cart.length !== 0 ? (
+          cart.map((item) => {
+            const product = getCartItem(item.id)
+
+            return (
+              <CartItem
+                key={product.id}
+                name={product.name}
+                id={product.id}
+                description={product.description}
+                price={product.price}
+                mainImage={product.mainImage}
+                images={product.images}
+              />
+            )
+          })
+        ) : (
+          <p>The cart is empty</p>
+        )}
+      </div>
+    </div>
+  )
+}
 
 const Header = () => {
   const hasMounted = useHasMounted()
@@ -37,6 +74,7 @@ const Header = () => {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
+      <OrderForm />
       <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 rounded-b-3xl shadow-xl shadow-gray-200 mb-3">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <Link href="/">
@@ -109,7 +147,7 @@ const Header = () => {
                   </a>
                 </Link>
               </li>
-              {hasMounted && state.loggedIn && (
+              {hasMounted && state.loggedIn ? (
                 <li className="flex items-end md:items-start">
                   <Link href="/login">
                     <a>
@@ -121,6 +159,12 @@ const Header = () => {
                         }
                       />
                     </a>
+                  </Link>
+                </li>
+              ) : (
+                <li>
+                  <Link href={"/login"}>
+                    <a>Login</a>
                   </Link>
                 </li>
               )}

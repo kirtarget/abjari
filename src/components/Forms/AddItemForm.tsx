@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react"
 import { createClient } from "@supabase/supabase-js"
 import { trpc } from "../../utils/trpc"
 import { nanoid } from "nanoid"
-import { prisma } from "@prisma/client"
 
 // Подключение к БД для загрузки изображений
 const supabase = createClient(
