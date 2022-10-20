@@ -80,17 +80,15 @@ const Header = () => {
 
       <OrderForm />
 
-
-
-
-
       <div className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 rounded-b-3xl shadow-xl shadow-gray-200 mb-3">
         <Navbar
           fluid={true}
           rounded={true}
 
         >
-          <Navbar.Brand href="https://flowbite.com/">
+          <Navbar.Brand href="/">
+
+
             <img
               src="/logo.png"
               className="mr-3 h-4 sm:h-5"
@@ -98,50 +96,53 @@ const Header = () => {
             />
 
           </Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse>
-            <Navbar.Link
-              href="/"
-              active={true}
-            >
-              Home
-            </Navbar.Link>
-            <Navbar.Link href="/cart">
-              Cart
+          <div className="flex items-center align-middle justify-center">
+            <Link href="/cart">
+              <a>
+                <button type="button" className="inline-flex relative items-center p-1 text-sm font-medium text-center mx-4  rounded-l focus:ring-4 focus:outline-none focus:ring-blue-300 self-end">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  </svg>
 
-              <span className="rounded-full bg-blue-500 p-1 px-2 text-white">
-                {hasMounted && itemsCount}
-              </span>
-            </Navbar.Link>
-            <Navbar.Link href="/catalog">
-              Catalog
-            </Navbar.Link>
-            <Navbar.Link href="/admin">
-              Admin
-            </Navbar.Link>
-            {hasMounted && loggedIn ? (
-              <li className="flex items-end md:items-start">
-                <Link href="/login">
-                  <a>
-                    <img
-                      className="rounded-full w-8"
-                      src={
-                        "https://res.cloudinary.com/demo/image/fetch/" +
-                        session?.user?.image
-                      }
-                    />
-                  </a>
-                </Link>
-              </li>
-            ) : (
-              <li>
-                <Link href={"/login"}>
-                  <a>Login</a>
-                </Link>
-              </li>
-            )}
+                  <span className="sr-only">Cart</span>
+                  <div className="inline-flex absolute top-4 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full border-2 border-white dark:border-gray-900">{hasMounted && itemsCount || 0}</div>
+                </button>
+              </a>
+            </Link>
 
-          </Navbar.Collapse>
+            <Navbar.Toggle />
+            <Navbar.Collapse>
+
+              <Navbar.Link href="/catalog">
+                Catalog
+              </Navbar.Link>
+              <Navbar.Link href="/admin">
+                Admin
+              </Navbar.Link>
+              {hasMounted && loggedIn ? (
+                <li className="flex items-end md:items-start">
+                  <Link href="/login">
+                    <a>
+                      <img
+                        className="rounded-full w-8"
+                        src={
+                          "https://res.cloudinary.com/demo/image/fetch/" +
+                          session?.user?.image
+                        }
+                      />
+                    </a>
+                  </Link>
+                </li>
+              ) : (
+                <li>
+                  <Link href={"/login"}>
+                    <a>Login</a>
+                  </Link>
+                </li>
+              )}
+
+            </Navbar.Collapse>
+          </div>
         </Navbar>
       </div>
 

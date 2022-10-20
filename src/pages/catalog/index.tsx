@@ -15,7 +15,7 @@ const Catalog = () => {
   }, [data])
 
   return (
-    <div className="justify-center flex gap-2 mx-4 flex-wrap w-[90%]">
+    <div className="justify-center items-center mx-auto flex gap-2  flex-wrap w-[90%]">
       {!isLoading ? (
         data?.items.map(
           (item): ReactNode => (

@@ -15,7 +15,7 @@ export const CartItem = ({
   const increaseItemQuantity = useCartStore(state => state.increaseItemQuantity)
   const getUniqSum = useCartStore(state => state.getUniqSum)
   return (
-    <div className="border-2 rounded-md w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 grid-rows-2  md:grid-rows-1 items-center  px-2">
+    <div className="shadow-md rounded-lg w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 grid-rows-2  md:grid-rows-1 items-center  px-2">
       <img className="h-24" src={mainImage} alt="" />
       <p className="px-2">{name}</p>
       <p className="md:text-center sm:text-right">{price}₾</p>
