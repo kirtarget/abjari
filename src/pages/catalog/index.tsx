@@ -1,14 +1,13 @@
-import { ReactNode, useEffect, useState } from "react"
-import Layout from "../../components/UI/Layout"
+import { ReactNode, useEffect } from "react"
 import { useBearStore } from "../../store/store"
 import { trpc } from "../../utils/trpc"
 import CatalogItem from "../../components/catalog/CatalogItem"
-import { useCartStore } from "../../store/cartStore"
+
 
 const Catalog = () => {
   let { data, isLoading } = trpc.items.useQuery({ id: "all" })
 
-  const state = useBearStore((state) => state.items)
+
   const setItems = useBearStore((state) => state.setItems)
 
   useEffect(() => {

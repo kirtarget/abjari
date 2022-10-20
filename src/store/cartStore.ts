@@ -25,7 +25,7 @@ interface CartStore {
   increaseItemQuantity: (id: number) => void
   decreaseItemQuantity: (id: number) => void
   removeFromCart: (id: number) => void
-  getItemsCount: () => number
+  getItemsCount: () => void
 }
 
 type CartItem = {
@@ -72,6 +72,11 @@ const decreaseItemQuantity = (cart: CartItem[], id: number): CartItem[] => {
   }
 }
 
+ const getItemsCount = (cart: CartItem[]):number => {
+  return cart.reduce((acc:number, cur:CartItem) => cur.quantity + acc, 0)
+
+}
+
 export const useCartStore = create(
   persist<CartStore>(
     (set, get) => ({
@@ -101,23 +106,33 @@ export const useCartStore = create(
         set((state) => ({
           ...state,
           cart: increaseItemQuantity(state.cart, id),
-          cartCount: state.cartCount + 1,
+          cartCount:state.cartCount + 1
+
         })),
       decreaseItemQuantity: (id) =>
         set((state) => ({
           ...state,
           cart: decreaseItemQuantity(state.cart, id),
-          cartCount: state.cartCount - 1,
+          cartCount: state.cartCount -1
+
         })),
 
       removeFromCart: (id: number) =>
-        set((state) => ({
+        set((state) => {
+          const item = state.cart.find(item => id === item.id)
+          
+          return {
           ...state,
           cart: removeFromCart(state.cart, id),
-        })),
-      getItemsCount: () =>
-        get().cart.reduce((prev, cur) => cur.quantity + prev, 0),
-      // setCart: (array) => {},
+          cartCount: state.cartCount - item?.quantity!
+
+        }}),
+      getItemsCount: () => set(state => ({
+        ...state,
+        cartCount: getItemsCount(state.cart)
+      }))
+       
+
     }),
     {
       name: "cartstorage",
