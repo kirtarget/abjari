@@ -35,6 +35,8 @@
     "classnames": "^2.3.2",
     "flowbite": "^1.5.3",
     "flowbite-react": "^0.1.12",
+    "formik": "^2.2.9",
+    "formik-mui": "^5.0.0-alpha.0",
     "nanoid": "^4.0.0",
     "next": "12.2.5",
     "next-auth": "^4.14.0",
@@ -46,6 +48,7 @@
     "supabase": "^1.7.0",
     "swiper": "^8.4.4",
     "ts-node": "^10.9.1",
+    "yup": "^0.32.11",
     "zod": "^3.19.1",
     "zustand": "^4.1.2"
   },

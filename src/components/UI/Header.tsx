@@ -5,8 +5,9 @@ import { useBearStore } from "../../store/store"
 import { useSession } from "next-auth/react"
 import { useCartStore } from "../../store/cartStore"
 import { useHasMounted } from "../../Hooks/hasMounted"
-import { Badge, Box, Typography } from "@mui/material"
+import { Badge, Box, Button, Typography } from "@mui/material"
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { trpc } from '../../utils/trpc';
 
 
 
@@ -33,6 +34,7 @@ const Header = () => {
   }
 
   const [isMenuVisible, setIsMenuVisible] = useState<boolean | null>(null)
+  const mutation = trpc.sendParcel.useMutation()
 
   return (
     <Box>
@@ -44,6 +46,49 @@ const Header = () => {
       </Head>
 
       <Box className="header" id="header">
+        <Button variant="contained" onClick={() => {
+          mutation.mutate({
+            "ParcelTypeId": 55,
+            "ReceiverCityId": 5877,
+            "ReceiverAddressNote": "ul Karla Marksa, 47-5",
+            "ZIP": "127001",
+            "IsExpress": false,
+            "deliveryMethod": 227,
+            "Weight": 1.1,
+            "X": 10,
+            "Y": 10,
+            "Z": 10,
+            "Quantity": 1,
+            "Insurance": {
+              "IsInsured": false,
+              "InsuranceAmount": 2.1,
+              "InsuranceCurrencyID": 3.0
+            },
+            "ReceiverPerson": {
+              "PersonTypeId": 2.0,
+              "FirstName": "Kirill",
+              "LastName": "Kartashyov",
+              "OrganizationName": "null",
+              "Phone": "+375444862986",
+              "Email": "sheldongriffiths1@gmail.com"
+            },
+            "PaymentMethod": 230,
+            "isHand2Hand": false,
+            "customerParcelCode": "dkdc13Kscm",
+            "declarationItems": [
+              {
+                "declarationItemID": 336342,
+                "comment": "Test order for testing postal API",
+                "currencyId": 1.0,
+                "itemCount": 1.0,
+                "itemPrice": 1.0,
+                "itemWeigth": 1.1
+              }
+
+            ],
+            "needExportDeclaration": false
+          })
+        }}>Send Parcel</Button>
         <nav className="navbar container">
           <Link href="/" >
             <a className="brand">

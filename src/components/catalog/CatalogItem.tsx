@@ -47,7 +47,7 @@ const CatalogItem = ({
 
 
   return (
-    <Grid container sx={{
+    <Grid container spacing={2} sx={{
       width: '100%',
       overflow: 'hidden',
       my: 1,
@@ -75,7 +75,7 @@ const CatalogItem = ({
         >
           {images.map(image => (<SwiperSlide key={Math.random()} className="h-full"><img
 
-            className=" object-fill h-[110%]"
+            className=""
             src={image}
             alt=""
           /></SwiperSlide>))}
@@ -85,7 +85,7 @@ const CatalogItem = ({
 
       <Grid item xs={12} md={8} sx={{
         width: '100%',
-        px: '0.5rem',
+
         display: 'flex',
         flexDirection: 'column'
 
