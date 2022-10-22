@@ -6,8 +6,6 @@ import { trpc } from '../utils/trpc';
 import { useRouter } from 'next/router'
 import { OrderItem } from "../lib/types/apiTypes";
 import { useEffect } from 'react';
-import { Button } from "@mui/material";
-import Link from "next/link";
 
 
 const Cart = () => {
@@ -75,11 +73,7 @@ const Cart = () => {
         <p>Total:</p>
         <p className="">{hasMounted && getFullSum()}₾</p>
       </div>
-      <Button variant="outlined" fullWidth={true} onClick={orderHandler} disabled={hasMounted && cart.length === 0} >Order</Button>
-      <Link href="/catalog"><a>
-        <Button variant="outlined" fullWidth={true} color="secondary" >Go to catalog</Button>
-      </a></Link>
-
+      <button onClick={orderHandler} type="button" disabled={hasMounted && cart.length === 0} className="text-white mx-auto w-[80%] bg-blue-700 hover:bg-blue-800 disabled:bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Order</button>
     </div>
   )
 }

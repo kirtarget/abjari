@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Link from "next/link";
+import { Button, Box, Grid } from "@mui/material";
 
 
 interface CatalogItemProps {
@@ -46,9 +47,16 @@ const CatalogItem = ({
 
 
   return (
-    <div className="w-full overflow-hidden rounded-lg flex flex-col md:flex-row py-1 my-1 shadow-md" >
+    <Grid container sx={{
+      width: '100%',
+      overflow: 'hidden',
+      my: 1,
+      boxShadow: 2,
+      borderRadius: '1rem'
+    }}  >
 
-      <div className="relative mx-auto w-[80%] md:w-[30%] mr-8 overflow-hidden h-full">
+      {/* <div className="relative mx-auto w-[80%] md:w-[30%] mr-8 overflow-hidden h-full"> */}
+      <Grid item xs={4}>
         <Swiper
           style={{
             "--swiper-navigation-color": "#ffffff40",
@@ -69,25 +77,43 @@ const CatalogItem = ({
             alt=""
           /></SwiperSlide>))}
         </Swiper>
+      </Grid>
+      {/* </div> */}
 
-      </div>
+      <Grid item xs={8} sx={{
+        width: '100%',
+        px: '0.5rem',
+        display: 'flex',
+        flexDirection: 'column'
 
-      <div className="w-full px-2 flex flex-col">
+      }} >
         <div className="font-bold text-md pt-5 ">{name}</div>
         <div className="font-bold text-md pt-5 ">{price}₾</div>
         <div className="text-sm pt-5 ">{description}</div>
 
-        <button onClick={addToCartHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-6">Add to Cart</button>
+        <Button sx={{
+          mt: 2,
 
-        {addedToCart && <Link href={"/cart"}>
+          borderRadius: 6,
+          mx: 'auto'
+        }} onClick={addToCartHandler} fullWidth={true} variant="outlined">Add to Cart</Button>
+
+
+        <Link href={"/cart"}>
           <a>
-            <button onClick={() => console.log('Order placed:', name)} type="button" className={`${addedToCart ? 'hidden' : 'hidden'}text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-6`}>Make an order {quantity}</button>
+            <Button sx={{
+              mt: 2,
+              mb: 2,
+              borderRadius: 6,
+              mx: 'auto'
+            }} fullWidth={true} variant="outlined" className={`${addedToCart ? '' : 'hidden'}`}>Make an order </Button>
+
           </a>
-        </Link>}
+        </Link>
 
-      </div>
+      </Grid>
 
-    </div >
+    </Grid >
   )
 }
 

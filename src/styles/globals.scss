@@ -64,6 +64,18 @@
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+// * {
+//   border: 1px solid red;
+// }
+
+.shadow-md {
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+    0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .header {
   z-index: 100;
   height: auto;
@@ -86,10 +98,11 @@
   margin: 0 auto;
   box-shadow: var(--shadow-large);
   background-color: #fff;
-  width: 80%;
-
   border-bottom-right-radius: 0.8rem;
   border-bottom-left-radius: 0.8rem;
+  @media only screen and (min-width: 48rem) {
+    width: 85%;
+  }
 }
 
 .brand {
