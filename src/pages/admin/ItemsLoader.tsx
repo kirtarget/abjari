@@ -3,6 +3,7 @@ import { trpc } from "../../utils/trpc"
 import { Item } from "../../lib/types/apiTypes"
 import { useBearStore } from "../../store/store"
 import { useHasMounted } from "../../Hooks/hasMounted"
+import { Typography } from "@mui/material"
 
 export default function ItemsLoader(): JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean | null>(null)
@@ -17,7 +18,8 @@ export default function ItemsLoader(): JSX.Element {
 
   let items = useBearStore((state) => state.items)
 
-  // const mutation = trpc.editItem.useMutation()
+
+  const mutation = trpc.editItem.useMutation()
 
   const onEditHandler = (e: React.PointerEvent) => {
     setIsEditing(true)
@@ -28,8 +30,8 @@ export default function ItemsLoader(): JSX.Element {
     return <div>Loading...</div>
   }
   return (
-    <div className="px-auto">
-      {hasMounted &&
+    <div className="mx-auto">
+      {hasMounted && items?.length > 0 ?
         items.map((item: Item) => {
           if (!item.mainImage.startsWith("http")) {
             item.mainImage = "https://trpc.io/img/logo.svg"
@@ -56,7 +58,7 @@ export default function ItemsLoader(): JSX.Element {
               </a>
             </div>
           )
-        })}
+        }) : <Typography variant='h5'>Loading...</Typography>}
     </div>
   )
 }

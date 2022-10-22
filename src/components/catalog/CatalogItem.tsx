@@ -52,11 +52,14 @@ const CatalogItem = ({
       overflow: 'hidden',
       my: 1,
       boxShadow: 2,
-      borderRadius: '1rem'
+      borderRadius: '1rem',
+      display: 'flex',
+      justifyContent: 'center'
+
     }}  >
 
       {/* <div className="relative mx-auto w-[80%] md:w-[30%] mr-8 overflow-hidden h-full"> */}
-      <Grid item xs={4}>
+      <Grid item xs={10} md={4}>
         <Swiper
           style={{
             "--swiper-navigation-color": "#ffffff40",
@@ -80,7 +83,7 @@ const CatalogItem = ({
       </Grid>
       {/* </div> */}
 
-      <Grid item xs={8} sx={{
+      <Grid item xs={12} md={8} sx={{
         width: '100%',
         px: '0.5rem',
         display: 'flex',

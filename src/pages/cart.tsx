@@ -6,7 +6,7 @@ import { trpc } from '../utils/trpc';
 import { useRouter } from 'next/router'
 import { OrderItem } from "../lib/types/apiTypes";
 import { useEffect } from 'react';
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Link from "next/link";
 
 
@@ -68,7 +68,9 @@ const Cart = () => {
           )
         })
       ) : (
-        <p>The cart is empty</p>
+        <Typography sx={{
+          mt: 6
+        }} variant='h6'>The cart is empty</Typography>
       )}
 
       <div className="flex justify-between py-8 mx-4 text-lg">

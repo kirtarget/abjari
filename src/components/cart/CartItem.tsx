@@ -1,6 +1,7 @@
 import { Item } from "../../lib/types/apiTypes"
 import { useCartStore } from "../../store/cartStore"
 import { Box, Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 
 export const CartItem = ({
   name,
@@ -28,9 +29,11 @@ export const CartItem = ({
       <Grid item xs={4}>
         <img className="" src={mainImage} alt={name} />
       </Grid>
-      <Grid item xs={8}>
-        <p className="px-2">{name}</p>
-        <p className="md:text-center sm:text-right">{price}₾</p>
+      <Grid item xs={8} sx={{
+        px: 1
+      }}>
+        <Typography variant="h6">{name}</Typography>
+        <Typography variant="h6">{price}₾</Typography>
         <p className="font-bold text-slate-700 text-center">
           <button className="px-2" onClick={() => decreaseItemQuantity(id)}>
             -
@@ -40,9 +43,18 @@ export const CartItem = ({
             +
           </button>
         </p>
-        <div className="flex font-bold flex-col gap-2 items-end justify-center sm:col-span-1  py-3 col-span-2 md:px-1">
-          {getUniqSum(id)}₾
-        </div>
+        <Box sx={{
+          display: "flex",
+          flexDirection: 'row',
+          justifyContent: 'space-between'
+        }}>
+          <Typography variant="h6">
+            Sum
+          </Typography>
+          <Typography variant="h6">
+            {getUniqSum(id)}₾
+          </Typography>
+        </Box>
       </Grid>
     </Grid>
   )
