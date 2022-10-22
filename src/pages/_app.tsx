@@ -4,10 +4,13 @@ import { SessionProvider } from "next-auth/react"
 import { trpc } from "../utils/trpc"
 import { Session } from "next-auth"
 import Layout from "../components/UI/Layout"
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 function MyApp({ Component, pageProps }: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={pageProps.session}>
+      <CssBaseline />
       <Layout>
         <Component {...pageProps} />
       </Layout>

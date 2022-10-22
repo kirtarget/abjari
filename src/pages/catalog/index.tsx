@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from "react"
 import { useBearStore } from "../../store/store"
 import { trpc } from "../../utils/trpc"
 import CatalogItem from "../../components/catalog/CatalogItem"
+import { Skeleton } from "@mui/material"
 
 
 const Catalog = () => {
@@ -30,15 +31,12 @@ const Catalog = () => {
             />
           )
         )
-      ) : (
-        <div role="status" className="max-w-ld animate-pulse">
-          <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[860px] mb-2.5"></div>
-          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[830px] mb-2.5"></div>
-          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[800px] mb-2.5"></div>
-          <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[860px]"></div>
-        </div>
+      ) : (<div className="flex gap-8 flex-wrap w-full">
+
+        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
+        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
+        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
+      </div>
       )}
     </div>
   )

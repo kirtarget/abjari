@@ -1,9 +1,11 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import Layout from "../components/UI/Layout"
+import { trpc } from '../utils/trpc';
 
 const Login = () => {
   const { data: session } = useSession()
   let content
+
 
   if (session) {
     content = (

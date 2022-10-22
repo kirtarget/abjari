@@ -15,9 +15,17 @@ const dummyStorageApi: Storage = {
   removeItem: (name: string) => {},
 }
 
+interface OrderDetails {
+  amount: number
+  currency: "USD" | "GEL"
+  lang: "ENG" | "KA"
+  info: { name: string; description: string; image: string }
+}
+
 interface CartStore {
   cart: CartItem[]
   cartCount: number
+
   getFullSum: () => number
   getUniqSum: (id: number) => number
   getCartItem: (id: number) => Item
@@ -72,9 +80,8 @@ const decreaseItemQuantity = (cart: CartItem[], id: number): CartItem[] => {
   }
 }
 
- const getItemsCount = (cart: CartItem[]):number => {
-  return cart.reduce((acc:number, cur:CartItem) => cur.quantity + acc, 0)
-
+const getItemsCount = (cart: CartItem[]): number => {
+  return cart.reduce((acc: number, cur: CartItem) => cur.quantity + acc, 0)
 }
 
 export const useCartStore = create(
@@ -106,34 +113,32 @@ export const useCartStore = create(
         set((state) => ({
           ...state,
           cart: increaseItemQuantity(state.cart, id),
-          cartCount:state.cartCount + 1
-
+          cartCount: state.cartCount + 1,
         })),
       decreaseItemQuantity: (id) =>
         set((state) => ({
           ...state,
           cart: decreaseItemQuantity(state.cart, id),
-          cartCount: state.cartCount -1
-
+          cartCount: state.cartCount - 1,
         })),
 
       removeFromCart: (id: number) =>
         set((state) => {
-          const item = state.cart.find(item => id === item.id)
-          
+          const item = state.cart.find((item) => id === item.id)
+
           return {
+            ...state,
+            cart: removeFromCart(state.cart, id),
+            cartCount: state.cartCount - item?.quantity!,
+          }
+        }),
+      getItemsCount: () =>
+        set((state) => ({
           ...state,
-          cart: removeFromCart(state.cart, id),
-          cartCount: state.cartCount - item?.quantity!
-
-        }}),
-      getItemsCount: () => set(state => ({
-        ...state,
-        cartCount: getItemsCount(state.cart)
-      }))
-       
-
+          cartCount: getItemsCount(state.cart),
+        })),
     }),
+
     {
       name: "cartstorage",
     }

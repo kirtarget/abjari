@@ -74,7 +74,7 @@ const CatalogItem = ({
 
       <div className="w-full px-2 flex flex-col">
         <div className="font-bold text-md pt-5 ">{name}</div>
-        <div className="font-bold text-md pt-5 ">{price}</div>
+        <div className="font-bold text-md pt-5 ">{price}₾</div>
         <div className="text-sm pt-5 ">{description}</div>
 
         <button onClick={addToCartHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 mt-6">Add to Cart</button>
