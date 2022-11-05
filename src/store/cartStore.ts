@@ -1,21 +1,7 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Item } from '../lib/types/apiTypes'
 import { IProduct } from '../lib/types/productType'
 import { useBearStore } from './store'
-
-interface Storage {
-    getItem: (name: string) => string | null | Promise<string | null>
-    setItem: (name: string, value: string) => void | Promise<void>
-    removeItem: (name: string) => void | Promise<void>
-}
-
-interface OrderDetails {
-    amount: number
-    currency: 'USD' | 'GEL'
-    lang: 'ENG' | 'KA'
-    info: { name: string; description: string; image: string }
-}
 
 interface CartStore {
     cart: CartItem[]
@@ -42,10 +28,6 @@ function getCartItem(items: IProduct[], _id: string): IProduct {
 
 function removeFromCart(cart: CartItem[], _id: string) {
     return cart.filter((item) => item._id !== _id)
-}
-
-function getItemQuantity(cart: CartItem[], _id: string) {
-    return cart.find((item) => item._id === _id)?.quantity || 0
 }
 
 const increaseItemQuantity = (cart: CartItem[], _id: string): CartItem[] => {

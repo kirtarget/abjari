@@ -4,7 +4,7 @@ import { Item } from "../../lib/types/apiTypes";
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 import { sanClient } from "../../lib/sanityClient";
-import { IProduct } from "../../lib/types/productType";
+
 
 const itemSchema = z.object({
   id: z.number().optional(),
@@ -47,7 +47,7 @@ export const appRouter = router({
 
   product: publicProcedure
     .input(z.object({ id: z.number() }))
-    .query(async ({ input }): Promise<{ item: Item } | null> => {
+    .query(async (): Promise<{ item: Item } | null> => {
       const item: Item = await sanClient.fetch(
         '*[_type == "product" && _id == ${id}][0]'
       );
@@ -120,7 +120,7 @@ export const appRouter = router({
         needExportDeclaration: z.boolean(),
       })
     )
-    .mutation(({ input }) => {
+    .mutation(() => {
       var data = JSON.stringify({
         ParcelTypeId: 55,
         ReceiverCityId: 5877,
