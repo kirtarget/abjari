@@ -10,7 +10,7 @@ const MainCardCTA = ({ description, title }: IMainCardProps) => {
       <Typography className="description ">{description}</Typography>
       <Link href="/catalog">
         <a className=" opacity-100">
-          <Button className={""}>SHOP NOW</Button>
+          <Button>SHOP NOW</Button>
         </a>
       </Link>
     </Box>
