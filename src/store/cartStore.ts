@@ -1,6 +1,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { Item } from "../lib/types/apiTypes";
+import { IProduct } from "../lib/types/productType";
 import { useBearStore } from "./store";
 
 interface Storage {
@@ -22,7 +23,7 @@ interface CartStore {
 
   getFullSum: () => number;
   getUniqSum: (_id: string) => number;
-  getCartItem: (_id: string) => Item;
+  getCartItem: (_id: string) => CartItem | undefined;
   getItemQuantity: (_id: string) => number;
   increaseItemQuantity: (_id: string) => void;
   decreaseItemQuantity: (_id: string) => void;
@@ -35,7 +36,7 @@ type CartItem = {
   quantity: number;
 };
 
-function getCartItem(items: Item[], _id: string): Item {
+function getCartItem(items: IProduct[], _id: string): IProduct {
   return items.find((item) => item._id === _id)!;
 }
 
