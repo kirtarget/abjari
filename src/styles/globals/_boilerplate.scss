@@ -1,35 +1,44 @@
 @use '../vars' as v;
 @use '../utils/' as u;
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 html {
-  box-sizing: border-box;
-  font-size: v.$fontSize;
-  font-family: "Roboto", sans-serif;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    font-size: v.$fontSize;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: v.$background-color;
+    margin: 0;
+    padding: 0;
+    background-color: v.$background-color;
 }
 
 .container {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0;
 
-  // @include u.breakpoint-down(desktop) {
-  //   margin: 0 auto;
+    // @include u.breakpoint-down(desktop) {
+    //   margin: 0 auto;
 
-  // }
+    // }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
