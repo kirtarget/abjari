@@ -14,8 +14,9 @@ const nextConfig = {
       "ywvesznjsvtfseqcelai.supabase.in",
       "res.cloudinary.com",
       "trpc.io",
+      "cdn.sanity.io",
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

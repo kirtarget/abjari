@@ -1,24 +1,24 @@
 export interface IScrollItemProps {
-  id: number
-  title: string
-  img: string
-  description: string
-  price: number
+  id: number;
+  title: string;
+  img: string;
+  description: string;
+  price: number;
 }
 export interface IChildren {
-  children: React.ReactNode
-  className: string
-  onClick?: (arg?: any) => void
+  children: React.ReactNode;
+
+  onClick?: (arg?: any) => void;
 }
 export interface IMainCardProps {
-  title: string
-  description: string
-  id: number
+  title: string;
+  description: string;
+  id: number;
 }
 
 export interface IBigCardProps {
-  id: number
-  img: string
-  title: string
-  description: string
+  id: number;
+  img: string;
+  title: string;
+  description: string;
 }

@@ -1,0 +1,18 @@
+@use "sass:math";
+@use "../vars" as v;
+
+@function rem($pixel) {
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, v.$fontSize) + rem;
+  } @else {
+    @error 'Function must take only numbers';
+  }
+}
+
+@function em($pixel) {
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, v.$fontSize) + em;
+  } @else {
+    @error 'Function must take only numbers';
+  }
+}

@@ -21,7 +21,8 @@
     "**/*.ts",
     "**/*.tsx",
     "/*.tsx",
-    "src/pages/api/image-upload.js"
+    "src/pages/api/image-upload.js",
+    "src/utils/trpc.js"
   ],
   "exclude": ["node_modules"]
 }

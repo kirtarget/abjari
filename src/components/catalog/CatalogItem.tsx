@@ -1,123 +1,180 @@
-import { useEffect, useState } from "react"
-import { Navigation, Pagination, Lazy, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useCartStore } from "../../store/cartStore"
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { ReactNode, useEffect, useState } from "react";
+import { Navigation, Lazy } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useCartStore } from "../../store/cartStore";
+import { urlFor } from "../../lib/sanityClient";
+import { PortableText } from "@portabletext/react";
+import { PortableTextComponents } from "@portabletext/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import Link from "next/link";
-import { Button, Box, Grid } from "@mui/material";
-
+import { Button, Box, Grid, Typography, Backdrop } from "@mui/material";
+import { useHasMounted } from "../../Hooks/hasMounted";
+import Image from "next/image";
+import { Container } from "@mui/system";
 
 interface CatalogItemProps {
-  id: string
-  mainImage: string
-  name: string
-  price: number
-  images: string[]
-  description: string
+  id: string;
+  name: string;
+  pricegel: number;
+  images: {
+    _key: string;
+    _type: string;
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+  }[];
+  description: { _type: string }[];
+  shortDescription?: { _type: string }[];
+  slug?: string;
 }
 
 const CatalogItem = ({
   id,
-  mainImage,
   name,
-  price,
+  pricegel,
   images,
+  slug,
   description,
+  shortDescription,
 }: CatalogItemProps): JSX.Element => {
-
-  const [addedToCart, setAddedToCart] = useState<boolean | null>(null)
-  const [quantity, setQuantity] = useState<number | null>(null)
-  const increaseItemQuantity = useCartStore(state => state.increaseItemQuantity)
-  const getItemQuantity = useCartStore(state => state.getItemQuantity)
-
+  const [addedToCart, setAddedToCart] = useState<boolean | null>(null);
+  const [quantity, setQuantity] = useState<number | null>(null);
+  const increaseItemQuantity = useCartStore(
+    (state) => state.increaseItemQuantity
+  );
+  const getItemQuantity = useCartStore((state) => state.getItemQuantity);
+  const hasMounted = useHasMounted();
 
   useEffect(() => {
-    setQuantity(getItemQuantity(+id))
-  }, [])
-
+    setQuantity(getItemQuantity(id));
+  }, []);
 
   const addToCartHandler = () => {
-    setAddedToCart(true)
-    increaseItemQuantity(+id)
-    setQuantity(getItemQuantity(+id))
-  }
+    setAddedToCart(true);
+    increaseItemQuantity(id);
+    setQuantity(getItemQuantity(id));
+  };
 
+  ///////////////////////////
 
   return (
-    <Grid container spacing={2} sx={{
-      width: '100%',
-      overflow: 'hidden',
-      my: 1,
-      boxShadow: 2,
-      borderRadius: '1rem',
-      display: 'flex',
-      justifyContent: 'center'
-
-    }}  >
-
-      {/* <div className="relative mx-auto w-[80%] md:w-[30%] mr-8 overflow-hidden h-full"> */}
-      <Grid item xs={10} md={4}>
+    <Grid
+      container
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        my: 1,
+        boxShadow: 2,
+        // maxHeight: "22rem",
+        borderRadius: "1rem",
+        display: "flex",
+      }}
+    >
+      <Grid item xs={12} md={4}>
         <Swiper
-          style={{
-            "--swiper-navigation-color": "#ffffff40",
-            "--swiper-pagination-color": "#fff",
-          } as any}
+          style={
+            {
+              "--swiper-navigation-color": "#ffffff90",
+              "--swiper-pagination-color": "#fff",
+            } as any
+          }
+          className="swiper"
           modules={[Navigation, Lazy]}
-          spaceBetween={10}
           lazy={true}
           slidesPerView={1}
           loop={true}
           centeredSlides={true}
           navigation={true}
         >
-          {images.map(image => (<SwiperSlide key={Math.random()} className="h-full"><img
-
-            className=""
-            src={image}
-            alt=""
-          /></SwiperSlide>))}
+          {images.map((image, i) => (
+            <SwiperSlide key={Math.random()}>
+              <Image
+                className="swiper__image"
+                src={urlFor(image).url()}
+                alt=""
+                width={6144}
+                height={8192}
+              />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </Grid>
       {/* </div> */}
 
-      <Grid item xs={12} md={8} sx={{
-        width: '100%',
+      <Grid
+        item
+        xs={12}
+        md={8}
+        sx={{
+          width: "100%",
+          px: 1.5,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <Typography
+            variant="h5"
+            paddingTop={2.5}
+            fontWeight="bold"
+            component="h1"
+          >
+            {name}
+          </Typography>
+          <Typography variant="h5" fontWeight="bold" paddingTop={2.5}>
+            {pricegel}₾
+          </Typography>
 
-        display: 'flex',
-        flexDirection: 'column'
-
-      }} >
-        <div className="font-bold text-md pt-5 ">{name}</div>
-        <div className="font-bold text-md pt-5 ">{price}₾</div>
-        <div className="text-sm pt-5 ">{description}</div>
-
-        <Button sx={{
-          mt: 2,
-
-          borderRadius: 6,
-          mx: 'auto'
-        }} onClick={addToCartHandler} fullWidth={true} variant="outlined">Add to Cart</Button>
-
-
-        <Link href={"/cart"}>
-          <a>
-            <Button sx={{
-              mt: 2,
+          {hasMounted && <PortableText value={shortDescription!} />}
+        </Box>
+        <Box>
+          <Button
+            sx={{
+              borderRadius: "1rem",
               mb: 2,
-              borderRadius: 6,
-              mx: 'auto'
-            }} fullWidth={true} variant="outlined" className={`${addedToCart ? '' : 'hidden'}`}>Make an order </Button>
-
-          </a>
-        </Link>
-
+              mx: "auto",
+            }}
+            onClick={addToCartHandler}
+            fullWidth={true}
+            variant="outlined"
+          >
+            Add to Cart
+          </Button>
+          <Link href={`/product/${slug}`}>
+            <Button
+              sx={{
+                borderRadius: "1rem",
+                mb: 2,
+                mx: "auto",
+              }}
+              fullWidth={true}
+              variant="outlined"
+            >
+              More info
+            </Button>
+          </Link>
+          <Link href={"/cart"}>
+            <Button
+              sx={{
+                mb: 2,
+                borderRadius: "1rem",
+                mx: "auto",
+              }}
+              fullWidth={true}
+              variant="outlined"
+              className={`${addedToCart ? "" : "hidden"}`}
+            >
+              Make an order
+            </Button>
+          </Link>
+        </Box>
       </Grid>
+    </Grid>
+  );
+};
 
-    </Grid >
-  )
-}
-
-export default CatalogItem
+export default CatalogItem;

@@ -1,9 +1,9 @@
-import { BsSearch, BsMinecart } from "react-icons/bs"
-import { AiOutlineMenu } from "react-icons/ai"
+import { BsSearch, BsMinecart } from "react-icons/bs";
+import { AiOutlineMenu } from "react-icons/ai";
 
 interface INavbarProps {
-  activeSearch: boolean
-  onActivate: () => void
+  activeSearch: boolean;
+  onActivate: () => void;
 }
 
 const Navbar = (props: INavbarProps) => {
@@ -35,7 +35,7 @@ const Navbar = (props: INavbarProps) => {
         <div className="fixed left-0 top-0 w-[75%] sm:w-[60%] md:w-[45%] g-screen bg-slate-100 p-10 ease-in duration"></div>
       </div> */}
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

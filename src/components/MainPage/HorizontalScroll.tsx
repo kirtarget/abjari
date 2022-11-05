@@ -1,5 +1,6 @@
-import ScrollListItem from "./ScrollListItem"
-import { IScrollItemProps } from "../../lib/types/MainPage"
+import ScrollListItem from "./ScrollListItem";
+import { IScrollItemProps } from "../../lib/types/MainPage";
+import { Box, Container, Typography } from "@mui/material";
 
 const HorizontalScroll = () => {
   // * ЗАМЕНИТЬ НА HTTP-Запрос
@@ -7,30 +8,30 @@ const HorizontalScroll = () => {
     {
       id: 1,
       title: "Longsleeve rashguard",
-      img: "/IMG_0215.jpg",
+      img: "/assets/IMG_0215.jpg",
       description: "For every training",
       price: 114,
     },
     {
       id: 2,
       title: "shortsleeve rashguard",
-      img: "/IMG_0259.jpeg",
+      img: "/assets/IMG_0259.jpeg",
       description: "For every training",
       price: 99,
     },
     {
       id: 3,
       title: "shorts",
-      img: "/IMG_0257.jpeg",
+      img: "/assets/IMG_0257.jpeg",
       description: "For every training",
       price: 89,
     },
-  ]
+  ];
   return (
-    <div className="px-4 pt-6  w-full lg:px-20">
-      <h5 className=" font-medium">Strength and Durability</h5>
-      <h1 className="font-black text-2xl pb-4">Armor for every warrior</h1>
-      <div className="flex gap-6 overflow-scroll  no-scrollbar justify-between">
+    <Box className="main__scroll">
+      <Typography variant="h4">Choose your new armor:</Typography>
+
+      <Container className="main__scroll_items  gap-6 overflow-scroll  no-scrollbar justify-between">
         {items.map((item) => (
           <ScrollListItem
             key={item.id}
@@ -41,9 +42,9 @@ const HorizontalScroll = () => {
             price={item.price}
           />
         ))}
-      </div>
-    </div>
-  )
-}
+      </Container>
+    </Box>
+  );
+};
 
-export default HorizontalScroll
+export default HorizontalScroll;

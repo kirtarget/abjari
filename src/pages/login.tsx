@@ -1,34 +1,45 @@
-import { useSession, signIn, signOut } from "next-auth/react"
-import Layout from "../components/UI/Layout"
-import { trpc } from '../utils/trpc';
+import { Button, Container } from "@mui/material";
+import { useSession, signIn, signOut, getProviders } from "next-auth/react";
+import { GetServerSideProps, NextPage } from "next";
+import { useHasMounted } from "../Hooks/hasMounted";
 
-const Login = () => {
-  const { data: session } = useSession()
-  let content
+const Login: NextPage<{
+  providers: { name: string; id: string }[];
+}> = ({ providers }) => {
+  const { data: session } = useSession();
 
+  const hasMounted = useHasMounted();
 
-  if (session) {
-    content = (
-      <div>
-        <h1>You are logged in as {session.user?.email}</h1>
-        <img
-          src={
-            "https://res.cloudinary.com/demo/image/fetch/" +
-            session.user?.image!
-          }
-        />
-        <button onClick={() => signOut()}>Sign Out</button>
-      </div>
-    )
-  } else {
-    content = (
-      <>
-        <h1>You are not logged in</h1>
-        <button onClick={() => signIn()}>Sign in</button>
-      </>
-    )
+  if (!hasMounted) {
+    return <Container>Loading...</Container>;
   }
-  return <>{content}</>
-}
 
-export default Login
+  return (
+    <Container className="login">
+      {Object.values(providers).map((provider) => (
+        <div key={provider.name}>
+          <Button
+            variant="contained"
+            onClick={() =>
+              signIn(provider.id, {
+                callbackUrl: `${window.location.origin}/`,
+              })
+            }
+          >
+            Sign in with {provider.name}
+          </Button>
+          {session?.user?.name}
+        </div>
+      ))}
+    </Container>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const providers = await getProviders();
+  return {
+    props: { providers },
+  };
+};
+
+export default Login;

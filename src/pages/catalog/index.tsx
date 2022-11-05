@@ -1,45 +1,47 @@
-import { ReactNode, useEffect } from "react"
-import { useBearStore } from "../../store/store"
-import { trpc } from "../../utils/trpc"
-import CatalogItem from "../../components/catalog/CatalogItem"
-import { Skeleton } from "@mui/material"
+import { ReactNode } from "react";
+import CatalogItem from "../../components/catalog/CatalogItem";
+import { trpcClient } from "../../server/client";
+import { GetServerSideProps, NextPage } from "next";
+import { Item } from "../../lib/types/apiTypes";
+import { sanClient } from "../../lib/sanityClient";
+import { IProduct } from "../../lib/types/productType";
 
-
-const Catalog = () => {
-  let { data, isLoading } = trpc.items.useQuery({ id: "all" })
-
-
-  const setItems = useBearStore((state) => state.setItems)
-
-  useEffect(() => {
-    setItems(data?.items || [])
-  }, [data])
-
+const Catalog: NextPage<{ products: IProduct[] }> = ({ products }) => {
   return (
-    <div className="justify-center items-center mx-auto flex gap-2  flex-wrap w-[90%]">
-      {!isLoading ? (
-        data?.items.map(
-          (item): ReactNode => (
-            <CatalogItem
-              key={item.id}
-              id={item.id}
-              mainImage={item.mainImage}
-              name={item.name}
-              price={item.price}
-              images={item.images}
-              description={item.description}
-            />
-          )
+    <div>
+      {products?.map(
+        (item: IProduct): JSX.Element => (
+          <CatalogItem
+            key={item._id}
+            id={item._id}
+            slug={item.slug.current}
+            name={item.name}
+            pricegel={item.pricegel}
+            images={item.image}
+            description={item.description}
+            shortDescription={item.shortDescription}
+          />
         )
-      ) : (<div className="flex gap-8 flex-wrap w-full">
-
-        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
-        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
-        <Skeleton variant="rounded" width={"100%"} height={"40vh"} />
-      </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Catalog
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const data = await trpcClient.items.query({ id: "all" });
+//   return {
+//     props: { data },
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const query = '*[_type == "product"]';
+
+  const products = await sanClient.fetch(query);
+
+  return {
+    props: { products },
+  };
+};
+
+export default Catalog;

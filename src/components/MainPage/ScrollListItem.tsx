@@ -1,6 +1,7 @@
-import Link from "next/link"
-import { IScrollItemProps } from "../../lib/types/MainPage"
-import Button from "../UI/Button"
+import { Box, Typography } from "@mui/material";
+import Link from "next/link";
+import { IScrollItemProps } from "../../lib/types/MainPage";
+import Button from "../UI/Button";
 
 const ScrollListItem = ({
   title,
@@ -10,20 +11,20 @@ const ScrollListItem = ({
 }: IScrollItemProps) => {
   return (
     <>
-      <div className="m-6 lg:px-10 ">
-        <div className="w-60 h-96  shadow-2xl hover:scale-105 transition duration-1000 my-2 rounded-2xl">
-          <img src={img} className="rounded-2xl w-auto h-full" />
-        </div>
-        <h1 className="font-bold capitalize">{title}</h1>
-        <h1 className="font-regular capitalize">${price}</h1>
+      <Box className="scroll-item">
+        <Box className="scroll-item_img">
+          <img src={img} />
+        </Box>
+        <Typography component="h3">{title}</Typography>
+        <Typography component="h4">${price}</Typography>
         <Link href="/catalog">
           <a>
-            <Button className="">Shop Now</Button>
+            <Button>Shop Now</Button>
           </a>
         </Link>
-      </div>
+      </Box>
     </>
-  )
-}
+  );
+};
 
-export default ScrollListItem
+export default ScrollListItem;

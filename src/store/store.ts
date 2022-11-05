@@ -1,13 +1,14 @@
-import create from "zustand"
-import { persist } from "zustand/middleware"
-import { Item } from "../lib/types/apiTypes"
+import create from "zustand";
+import { persist } from "zustand/middleware";
+import { Item } from "../lib/types/apiTypes";
+import { IProduct } from "../lib/types/productType";
 
 interface BearStore {
-  items: Item[]
-  loggedIn: boolean
-  logIn: () => void
-  logOut: () => void
-  setItems: (array: Item[]) => void
+  items: IProduct[];
+  loggedIn: boolean;
+  logIn: () => void;
+  logOut: () => void;
+  setItems: (array: IProduct[]) => void;
 }
 
 export const useBearStore = create(
@@ -33,4 +34,4 @@ export const useBearStore = create(
       name: "statestorage",
     }
   )
-)
+);

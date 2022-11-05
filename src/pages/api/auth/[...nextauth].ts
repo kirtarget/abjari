@@ -1,9 +1,9 @@
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import prisma from "../../../lib/prismadb"
+import NextAuth, { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prisma from "../../../lib/prismadb";
 
-export default NextAuth({
+const options: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -12,4 +12,10 @@ export default NextAuth({
     }),
   ],
   secret: process.env.JWT_SECRET,
-})
+  pages: {
+    signIn: "/profile",
+    signOut: "/login",
+  },
+};
+
+export default NextAuth(options);

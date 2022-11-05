@@ -1,19 +1,20 @@
-import { IMainCardProps } from "../../lib/types/MainPage"
-import Button from "../UI/Button"
-import Link from "next/link"
+import { IMainCardProps } from "../../lib/types/MainPage";
+import Button from "../UI/Button";
+import Link from "next/link";
+import { Typography, Box } from "@mui/material";
 
 const MainCardCTA = ({ description, title }: IMainCardProps) => {
   return (
-    <div className=" m-8 flex flex-col justify-start w-72">
-      <span className="font-black text-white text-3xl">{title}</span>
-      <span className="text-white">{description}</span>
+    <Box className="main__hero_cta">
+      <Typography className="title">{title}</Typography>
+      <Typography className="description ">{description}</Typography>
       <Link href="/catalog">
         <a className=" opacity-100">
           <Button className={""}>SHOP NOW</Button>
         </a>
       </Link>
-    </div>
-  )
-}
+    </Box>
+  );
+};
 
-export default MainCardCTA
+export default MainCardCTA;

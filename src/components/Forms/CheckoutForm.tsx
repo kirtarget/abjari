@@ -1,87 +1,142 @@
+import {
+  Box,
+  Container,
+  Backdrop,
+  CircularProgress,
+  TextField,
+  Button,
+  FormControl,
+  Input,
+} from "@mui/material";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Box, Container, Backdrop, CircularProgress, TextField, Button } from '@mui/material';
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+// interface MyFormValues {
+//   firstName: string;
+//   lastName: string;
+//   country: string;
+//   phone: string;
+//   city: string;
+//   address: string;
+// }
 
-interface MyFormValues {
-	firstName: string
-	lastName: string
-	country: string
-	phone: string
-	city: string
-	address: string
-}
+type IFormInputs = {
+  email: string;
 
+  phone: string;
+  city: string;
+  address: string;
+};
+
+const schema = z.object({
+  email: z.string().email().min(1),
+
+  phone: z
+    .string()
+    .regex(
+      new RegExp(
+        /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{1,3})[-. )]*(\d{1,3})[-. ]*(\d{1,4})[-. ]*(?: *(\d+))?\s*$/g
+      )
+    ),
+  city: z.string().min(3),
+  address: z.string().min(3),
+});
 
 const CheckoutForm = (): JSX.Element => {
-	const initialValues: MyFormValues = { firstName: '', lastName: '', country: '', phone: '', city: '', address: '' };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<IFormInputs>({ resolver: zodResolver(schema) });
 
+  const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    console.log(data);
+  };
+  return (
+    <Backdrop sx={{ zIndex: 200 }} open={true}>
+      <Container sx={{ backgroundColor: "white" }}>
+        <form
+          onSubmit={handleSubmit(formSubmitHandler)}
+          style={{
+            backgroundColor: "#fff",
+            width: "50%",
+            height: "50%",
+            display: "flex",
+            padding: "10px",
+            gap: 12,
+            flexDirection: "column",
+          }}
+        >
+          <Controller
+            name="email"
+            control={control}
+            defaultValue="example@.mail.ge"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Email"
+                type={"email"}
+                variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email ? errors.email?.message : ""}
+                fullWidth={true}
+              />
+            )}
+          />
+          <Controller
+            name="phone"
+            control={control}
+            defaultValue="+1(234)567-89-01"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Phone number"
+                variant="outlined"
+                error={!!errors.phone}
+                helperText={errors.phone ? errors.phone?.message : ""}
+                fullWidth={true}
+              />
+            )}
+          />
+          <Controller
+            name="city"
+            control={control}
+            defaultValue="Tbilisi"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Your city"
+                variant="outlined"
+                error={!!errors.city}
+                helperText={errors.city ? errors.city?.message : ""}
+                fullWidth={true}
+              />
+            )}
+          />
+          <Controller
+            name="address"
+            control={control}
+            defaultValue="Ul Pushkina"
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Your address"
+                variant="outlined"
+                error={!!errors.address}
+                helperText={errors.address ? errors.address?.message : ""}
+                fullWidth={true}
+              />
+            )}
+          />
 
-
-	return (
-		<Container>
-			<Backdrop
-				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={true}
-
-			>
-				<Box sx={{
-					backgroundColor: '#fff',
-					height: '20rem',
-					width: '80%',
-					color: '#444',
-					flexWrap: 'wrap',
-					display: 'flex',
-					FlexDirection: 'column'
-				}}>
-
-					<Formik initialValues={initialValues} onSubmit={(data, { setSubmitting }) => {
-
-
-						setSubmitting(true);
-
-						setTimeout(() => { }, 500)
-						setSubmitting(false);
-					}}>
-						{({ values }) => (
-							<Form >
-								<Box>
-									<label htmlFor='firstName'>First Name</label>
-									<Field id='firstName' name="firstName" placeholder="First Name" as={TextField} />
-								</Box>
-								<Box>
-									<label htmlFor='lastName'>Last Name</label>
-									<Field id='lastName' name="lastName" placeholder="Last Name" as={TextField} />
-								</Box>
-								<Box>
-									<label htmlFor='country'>Country</label>
-									<Field id='country' name="country" placeholder="Country" as={TextField} />
-								</Box>
-								<Box>
-									<label htmlFor='phone'>Phone</label>
-									<Field id='phone' name="phone" placeholder="Phone" as={TextField} />
-								</Box>
-								<Box>
-									<label htmlFor='city'>City</label>
-									<Field id='city' name="city" placeholder="City" as={TextField} />
-								</Box>
-								<Box>
-									<label htmlFor='address'>Address</label>
-									<Field id='address' name="address" placeholder="Address" as={TextField} />
-								</Box>
-								<pre>{JSON.stringify(values)}</pre>
-
-								<Button variant='outlined' type="submit">Submit</Button>
-
-							</Form>)}
-					</Formik>
-
-				</Box>
-
-
-			</Backdrop>
-
-		</Container >
-	);
-}
+          <button type="submit">dkdk</button>
+        </form>
+      </Container>
+    </Backdrop>
+  );
+};
 
 export default CheckoutForm;

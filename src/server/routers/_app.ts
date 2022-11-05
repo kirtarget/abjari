@@ -1,10 +1,10 @@
-import { z } from "zod"
-import { router, publicProcedure } from "../trpc"
-import { Item } from "../../lib/types/apiTypes"
-import { PrismaClient } from "@prisma/client"
-import axios from "axios"
-
-const sdk = require("api")("@payze/v1.0#ziql2k8p1d1")
+import { z } from "zod";
+import { router, publicProcedure } from "../trpc";
+import { Item } from "../../lib/types/apiTypes";
+import { PrismaClient } from "@prisma/client";
+import axios from "axios";
+import { sanClient } from "../../lib/sanityClient";
+import { IProduct } from "../../lib/types/productType";
 
 const itemSchema = z.object({
   id: z.number().optional(),
@@ -13,10 +13,10 @@ const itemSchema = z.object({
   price: z.number(),
   mainImage: z.string(),
   images: z.array(z.string()),
-})
+});
 
 // Подключение к ОРМ
-export const prisma = new PrismaClient()
+export const prisma = new PrismaClient();
 
 // Создание роутов (Ключ объекта - роут,
 //input - то, что получаем на входе, query - функция, выполняемая при гет-запросе,
@@ -25,37 +25,42 @@ export const appRouter = router({
   items: publicProcedure
     .input(z.object({ id: z.string().nullish() }))
     .query(async (): Promise<{ items: Item[] }> => {
-      const items = await prisma.item.findMany()
+      const items = await sanClient.fetch('*[_type == "product"]');
 
-      return { items }
+      return { items };
     }),
 
-  addItem: publicProcedure.input(itemSchema).mutation(async ({ input }) => {
-    const data: Item = {
-      name: input.name,
-      description: input.description,
-      price: input.price,
-      mainImage: input.mainImage,
-      images: input.images,
-    }
+  // addItem: publicProcedure.input(itemSchema).mutation(async ({ input }) => {
+  //   const data: IProduct = {
+  //     _id: input.id?.toString() || "",
+  //     name: input.name,
+  //     description: input.description,
+  //     pricegel: input.pricegel,
+  //     mainImage: input.mainImage,
+  //     image: input.image,
+  //   };
 
-    await prisma.item.create({ data })
+  //   await prisma.item.create({ data });
 
-    return "succsess"
-  }),
+  //   return "succsess";
+  // }),
 
   product: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }): Promise<{ item: Item } | null> => {
-      const item = await prisma.item.findUnique({
-        where: {
-          id: input.id,
-        },
-      })
+      const item: Item = await sanClient.fetch(
+        '*[_type == "product" && _id == ${id}][0]'
+      );
 
-      if (!item) return null
+      // prisma.item.findUnique({
+      //   where: {
+      //     id: input.id,
+      //   },
+      // });
 
-      return { item }
+      if (!item) return null;
+
+      return { item };
     }),
 
   editItem: publicProcedure.input(itemSchema).mutation(async ({ input }) => {
@@ -69,7 +74,7 @@ export const appRouter = router({
         mainImage: input.mainImage,
         images: input.images,
       },
-    })
+    });
   }),
 
   sendParcel: publicProcedure
@@ -155,7 +160,7 @@ export const appRouter = router({
           },
         ],
         needExportDeclaration: false,
-      })
+      });
 
       var config = {
         method: "post",
@@ -165,15 +170,29 @@ export const appRouter = router({
           "Content-Type": "application/json",
         },
         data: data,
-      }
+      };
 
       axios(config)
         .then(function (response) {
-          console.log(response.request)
+          console.log(response.request);
         })
         .catch(function (error) {
-          console.log(error)
-        })
+          console.log(error);
+        });
+    }),
+
+  getUser: publicProcedure
+    .input(z.object({ email: z.string() }))
+    .query(async ({ input }) => {
+      const user = await prisma.user.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+
+      if (!user) return null;
+
+      return { user };
     }),
 
   pay: publicProcedure
@@ -214,17 +233,17 @@ export const appRouter = router({
               hookRefund: false,
             },
           }),
-        })
+        });
 
-        const data = await res.json()
+        const data = await res.json();
 
-        const url = await data.response.transactionUrl
+        const url = await data.response.transactionUrl;
 
-        return url
+        return url;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }),
-})
+});
 
-export type AppRouter = typeof appRouter
+export type AppRouter = typeof appRouter;

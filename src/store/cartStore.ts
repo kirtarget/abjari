@@ -1,88 +1,83 @@
-import create from "zustand"
-import { persist } from "zustand/middleware"
-import { Item } from "../lib/types/apiTypes"
-import { useBearStore } from "./store"
+import create from "zustand";
+import { persist } from "zustand/middleware";
+import { Item } from "../lib/types/apiTypes";
+import { useBearStore } from "./store";
 
 interface Storage {
-  getItem: (name: string) => string | null | Promise<string | null>
-  setItem: (name: string, value: string) => void | Promise<void>
-  removeItem: (name: string) => void | Promise<void>
-}
-
-const dummyStorageApi: Storage = {
-  getItem: (name: string) => null,
-  setItem: (name: string, value: string) => {},
-  removeItem: (name: string) => {},
+  getItem: (name: string) => string | null | Promise<string | null>;
+  setItem: (name: string, value: string) => void | Promise<void>;
+  removeItem: (name: string) => void | Promise<void>;
 }
 
 interface OrderDetails {
-  amount: number
-  currency: "USD" | "GEL"
-  lang: "ENG" | "KA"
-  info: { name: string; description: string; image: string }
+  amount: number;
+  currency: "USD" | "GEL";
+  lang: "ENG" | "KA";
+  info: { name: string; description: string; image: string };
 }
 
 interface CartStore {
-  cart: CartItem[]
-  cartCount: number
+  cart: CartItem[];
+  cartCount: number;
 
-  getFullSum: () => number
-  getUniqSum: (id: number) => number
-  getCartItem: (id: number) => Item
-  getItemQuantity: (id: number) => number
-  increaseItemQuantity: (id: number) => void
-  decreaseItemQuantity: (id: number) => void
-  removeFromCart: (id: number) => void
-  getItemsCount: () => void
+  getFullSum: () => number;
+  getUniqSum: (_id: string) => number;
+  getCartItem: (_id: string) => Item;
+  getItemQuantity: (_id: string) => number;
+  increaseItemQuantity: (_id: string) => void;
+  decreaseItemQuantity: (_id: string) => void;
+  removeFromCart: (_id: string) => void;
+  getItemsCount: () => void;
 }
 
 type CartItem = {
-  id: number
-  quantity: number
+  _id: string;
+  quantity: number;
+};
+
+function getCartItem(items: Item[], _id: string): Item {
+  return items.find((item) => item._id === _id)!;
 }
 
-function getCartItem(items: Item[], id: number): Item {
-  return items.find((item) => item.id === id)!
+function removeFromCart(cart: CartItem[], _id: string) {
+  return cart.filter((item) => item._id !== _id);
 }
 
-function removeFromCart(cart: CartItem[], id: number) {
-  return cart.filter((item) => item.id !== id)
+function getItemQuantity(cart: CartItem[], _id: string) {
+  return cart.find((item) => item._id === _id)?.quantity || 0;
 }
 
-function getItemQuantity(cart: CartItem[], id: number) {
-  return cart.find((item) => item.id === id)?.quantity || 0
-}
-
-const increaseItemQuantity = (cart: CartItem[], id: number): CartItem[] => {
-  if (!cart.find((item) => item.id === id)) {
-    return [...cart, { id, quantity: 1 }]
+const increaseItemQuantity = (cart: CartItem[], _id: string): CartItem[] => {
+  if (!cart.find((item) => item._id === _id)) {
+    return [...cart, { _id, quantity: 1 }];
   } else {
     return cart.map((item) => {
-      if (item.id === id) {
-        return { ...item, quantity: item.quantity + 1 }
+      if (item._id === _id) {
+        return { ...item, quantity: item.quantity + 1 };
       } else {
-        return item
+        return item;
       }
-    })
+    });
   }
-}
-const decreaseItemQuantity = (cart: CartItem[], id: number): CartItem[] => {
-  if (cart.find((item) => item.id === id)?.quantity === 1) {
-    return cart.filter((item) => item.id !== id)
+};
+
+const decreaseItemQuantity = (cart: CartItem[], _id: string): CartItem[] => {
+  if (cart.find((item) => item._id === _id)?.quantity === 1) {
+    return cart.filter((item) => item._id !== _id);
   } else {
     return cart.map((item) => {
-      if (item.id === id) {
-        return { ...item, quantity: item.quantity - 1 }
+      if (item._id === _id) {
+        return { ...item, quantity: item.quantity - 1 };
       } else {
-        return item
+        return item;
       }
-    })
+    });
   }
-}
+};
 
 const getItemsCount = (cart: CartItem[]): number => {
-  return cart.reduce((acc: number, cur: CartItem) => cur.quantity + acc, 0)
-}
+  return cart.reduce((acc: number, cur: CartItem) => cur.quantity + acc, 0);
+};
 
 export const useCartStore = create(
   persist<CartStore>(
@@ -90,47 +85,49 @@ export const useCartStore = create(
       cart: [],
       cartCount: 0,
       getFullSum: () =>
-        get().cart.reduce((cur, prev) => {
-          return cur + get().getCartItem(prev.id).price * prev.quantity
+        get().cart.reduce((acc, i) => {
+          const item = getCartItem(useBearStore.getState().items, i._id);
+          return acc + item.pricegel * i.quantity;
         }, 0),
-      getUniqSum: (id) =>
+      getUniqSum: (_id) =>
         get().cart.reduce((cur, prev) => {
-          if (prev.id === id) {
-            return cur + get().getCartItem(prev.id).price * prev.quantity
+          if (prev._id === _id) {
+            const item = useBearStore
+              .getState()
+              .items.find((i) => i._id === _id);
+            const cartItem = get().cart.find((i) => i._id === _id);
+            return cur + item!.pricegel * cartItem!.quantity;
           } else {
-            return cur
+            return cur;
           }
         }, 0),
-      getCartItem: (id: number) => {
-        const items = useBearStore.getState().items
-        return getCartItem(items, id)
-      },
+      getCartItem: (_id: string) => get().cart.find((item) => item._id === _id),
 
-      getItemQuantity: (id) =>
-        get().cart.find((item) => item.id === id)?.quantity || 0,
+      getItemQuantity: (_id) =>
+        get().cart.find((item) => item._id === _id)?.quantity || 0,
 
-      increaseItemQuantity: (id) =>
+      increaseItemQuantity: (_id) =>
         set((state) => ({
           ...state,
-          cart: increaseItemQuantity(state.cart, id),
+          cart: increaseItemQuantity(state.cart, _id),
           cartCount: state.cartCount + 1,
         })),
-      decreaseItemQuantity: (id) =>
+      decreaseItemQuantity: (_id) =>
         set((state) => ({
           ...state,
-          cart: decreaseItemQuantity(state.cart, id),
+          cart: decreaseItemQuantity(state.cart, _id),
           cartCount: state.cartCount - 1,
         })),
 
-      removeFromCart: (id: number) =>
+      removeFromCart: (_id: string) =>
         set((state) => {
-          const item = state.cart.find((item) => id === item.id)
+          const item = state.cart.find((item) => _id === item._id);
 
           return {
             ...state,
-            cart: removeFromCart(state.cart, id),
+            cart: removeFromCart(state.cart, _id),
             cartCount: state.cartCount - item?.quantity!,
-          }
+          };
         }),
       getItemsCount: () =>
         set((state) => ({
@@ -143,4 +140,4 @@ export const useCartStore = create(
       name: "cartstorage",
     }
   )
-)
+);
