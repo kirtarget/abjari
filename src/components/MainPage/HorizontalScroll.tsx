@@ -2,7 +2,7 @@ import ScrollListItem from "./ScrollListItem";
 import { IScrollItemProps } from "../../lib/types/MainPage";
 import { Box, Container, Typography } from "@mui/material";
 
-const HorizontalScroll = () => {
+const HorizontalScroll = (): JSX.Element => {
   // * ЗАМЕНИТЬ НА HTTP-Запрос
   const items: IScrollItemProps[] = [
     {
