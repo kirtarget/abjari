@@ -1,18 +1,20 @@
 import { useCartStore } from '../../store/cartStore'
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, MenuItem, Select } from '@mui/material'
 import { Typography } from '@mui/material'
 import { urlFor } from '../../lib/sanityClient'
 import { PortableText } from '@portabletext/react'
 import { IProduct } from '../../lib/types/productType'
+import { useState } from 'react'
 
 export const CartItem = ({
     name,
     _id,
-
+    details,
     shortDescription,
     image,
     pricegel,
 }: IProduct) => {
+    const [size, setSize] = useState('M')
     const getItemQuantity = useCartStore((state) => state.getItemQuantity)
     const decreaseItemQuantity = useCartStore(
         (state) => state.decreaseItemQuantity
@@ -20,7 +22,15 @@ export const CartItem = ({
     const increaseItemQuantity = useCartStore(
         (state) => state.increaseItemQuantity
     )
+    const cart = useCartStore((state) => state.cart)
     const getUniqSum = useCartStore((state) => state.getUniqSum)
+    const setItemSize = useCartStore((state) => state.setItemSize)
+
+    const changeSizehandler = (e: any): void => {
+        setItemSize(_id, e.target.value)
+        setSize(e.target.value)
+        console.table(cart)
+    }
 
     return (
         <Grid
@@ -58,6 +68,22 @@ export const CartItem = ({
                     <Typography variant="h6">{pricegel}₾</Typography>
                 </Box>
                 <PortableText value={shortDescription} />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="subtitle1" px={3} paddingBottom={2}>
+                        Choose your size:
+                    </Typography>
+                    <Select
+                        label="Choose your size:"
+                        onChange={(e) => changeSizehandler(e)}
+                        value={size}
+                    >
+                        {details?.map((item) => (
+                            <MenuItem key={item._key} value={item.size}>
+                                {item.size}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </Box>
                 <Box>
                     <p className="cart__buttons ">
                         <button

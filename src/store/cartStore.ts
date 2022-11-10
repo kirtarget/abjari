@@ -6,6 +6,7 @@ import { useBearStore } from './store'
 interface CartStore {
     cart: CartItem[]
     cartCount: number
+    setItemSize: (id: string, size: string) => void
 
     getFullSum: () => number
     getUniqSum: (_id: string) => number
@@ -17,9 +18,10 @@ interface CartStore {
     getItemsCount: () => void
 }
 
-type CartItem = {
+export type CartItem = {
     _id: string
     quantity: number
+    size: string
 }
 
 function getCartItem(items: IProduct[], _id: string): IProduct {
@@ -30,9 +32,19 @@ function removeFromCart(cart: CartItem[], _id: string) {
     return cart.filter((item) => item._id !== _id)
 }
 
+function changeItemSize(cart: CartItem[], _id: string, size: string) {
+    return cart.map((item: CartItem) => {
+        if (item._id === _id) {
+            return { ...item, size }
+        } else {
+            return item
+        }
+    })
+}
+
 const increaseItemQuantity = (cart: CartItem[], _id: string): CartItem[] => {
     if (!cart.find((item) => item._id === _id)) {
-        return [...cart, { _id, quantity: 1 }]
+        return [...cart, { _id, quantity: 1, size: 'M' }]
     } else {
         return cart.map((item) => {
             if (item._id === _id) {
@@ -67,6 +79,10 @@ export const useCartStore = create(
         (set, get) => ({
             cart: [],
             cartCount: 0,
+            setItemSize: (id: string, size: string) =>
+                set((state) => ({
+                    cart: changeItemSize(state.cart, id, size),
+                })),
             getFullSum: () =>
                 get().cart.reduce((acc, i) => {
                     const item = getCartItem(

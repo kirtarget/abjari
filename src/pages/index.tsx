@@ -1,57 +1,14 @@
 import { Box, Container, Typography } from '@mui/material'
-import type { NextPage } from 'next'
-// import { HorizontalScroll } from '../components/mainPage/HorizontalScroll'
+import type { GetServerSideProps, NextPage } from 'next'
+import { HorizontalScroll } from '../components/mainPage/HorizontalScroll'
 import ItemShowCase from '../components/mainPage/ItemShowCase'
 import ScrollListItem from '../components/mainPage/ScrollListItem'
 import WearUs from '../components/mainPage/WearUs'
+import { sanClient } from '../lib/sanityClient'
+import { IWearUs } from '../lib/types/apiTypes'
 import { IScrollItemProps } from '../lib/types/MainPage'
 
-const HorizontalScroll = (): JSX.Element => {
-    // * ЗАМЕНИТЬ НА HTTP-Запрос
-    const items: IScrollItemProps[] = [
-        {
-            id: 1,
-            title: 'Longsleeve rashguard',
-            img: '/assets/IMG_0215.jpg',
-            description: 'For every training',
-            price: 114,
-        },
-        {
-            id: 2,
-            title: 'shortsleeve rashguard',
-            img: '/assets/IMG_0259.jpeg',
-            description: 'For every training',
-            price: 99,
-        },
-        {
-            id: 3,
-            title: 'shorts',
-            img: '/assets/IMG_0257.jpeg',
-            description: 'For every training',
-            price: 89,
-        },
-    ]
-    return (
-        <Box className="main__scroll">
-            <Typography variant="h4">Choose your new armor:</Typography>
-
-            <Container className="main__scroll_items  gap-6 overflow-scroll  no-scrollbar justify-between">
-                {items.map((item) => (
-                    <ScrollListItem
-                        key={item.id}
-                        id={item.id}
-                        title={item.title}
-                        img={item.img}
-                        description={item.description}
-                        price={item.price}
-                    />
-                ))}
-            </Container>
-        </Box>
-    )
-}
-
-const Home: NextPage = () => {
+const Home: NextPage<{ data: IWearUs[] }> = ({ data }) => {
     return (
         <>
             {/* <CheckoutForm /> */}
@@ -60,9 +17,42 @@ const Home: NextPage = () => {
 
             <HorizontalScroll />
 
-            <WearUs />
+            <Box
+                sx={{
+                    width: '100%',
+                    backgroundColor: '#ccc',
+                    borderRadius: '1rem',
+                    height: '15rem',
+                }}
+            >
+                Баннер
+            </Box>
+
+            <Typography
+                variant="h4"
+                fontWeight={700}
+                color="#333"
+                sx={{ textAlign: 'left', mt: 5, textTransform: 'uppercase' }}
+            >
+                Great people who wears our gear:
+            </Typography>
+            <Container className="wear-us__container">
+                {data?.map((i) => (
+                    <WearUs data={i} />
+                ))}
+            </Container>
         </>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    const query = '*[_type == "wearus"]'
+
+    const data = await sanClient.fetch(query)
+
+    return {
+        props: { data },
+    }
 }
 
 export default Home

@@ -1,13 +1,13 @@
-import product from "./product";
-import banner from "./banner";
-import { user, account, verificationToken } from "next-auth-sanity/schemas";
+import product from './product'
+import banner from './banner'
+import wearUs from './wearUs'
 
-import createSchema from "part:@sanity/base/schema-creator";
+import createSchema from 'part:@sanity/base/schema-creator'
 
-import schemaTypes from "all:part:@sanity/base/schema-type";
+import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 export default createSchema({
-  name: "default",
+    name: 'default',
 
-  types: schemaTypes.concat([product, banner]),
-});
+    types: schemaTypes.concat([product, banner, wearUs]),
+})

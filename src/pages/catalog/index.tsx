@@ -31,7 +31,7 @@ const Catalog: NextPage<{ products: IProduct[] }> = ({ products }) => {
 //   };
 // };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const query = '*[_type == "product"]'
 
     const products = await sanClient.fetch(query)

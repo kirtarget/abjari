@@ -3,15 +3,20 @@ import { useHasMounted } from '../Hooks/hasMounted'
 import { CartItem } from '../components/cart/CartItem'
 import shallow from 'zustand/shallow'
 import { trpc } from '../utils/trpc'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Container, Typography } from '@mui/material'
 import Link from 'next/link'
 import { NextPage } from 'next'
 import { sanClient } from '../lib/sanityClient'
 import { IProduct } from '../lib/types/productType'
-import { useBearStore } from '../store/store'
+import { CountryType, useBearStore } from '../store/store'
+import CheckoutForm from '../components/Forms/CheckoutForm'
+import axios from 'axios'
 
-const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
+const Cart: NextPage<{ products: IProduct[]; countries: CountryType[] }> = ({
+    products,
+    countries,
+}) => {
     const { cart, getCartItem, getFullSum } = useCartStore(
         (state) => ({
             cart: state.cart,
@@ -20,12 +25,16 @@ const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
         }),
         shallow
     )
-
+    const setCountries = useBearStore((state) => state.setCountries)
+    const [formIsVisible, setFormIsVisible] = useState<boolean>(false)
     const setItems = useBearStore((state) => state.setItems)
 
-    const hasMounted = useHasMounted()
-    const mutation = trpc.pay.useMutation()
+    setCountries(countries)
 
+    const hasMounted = useHasMounted()
+    if (products && hasMounted) setItems(products)
+
+    const mutation = trpc.pay.useMutation()
     useEffect(() => {
         const data = mutation.data
         if (data === undefined) return
@@ -34,32 +43,20 @@ const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
         window.location.href = data
     }, [mutation])
 
-    if (products && hasMounted) setItems(products)
-
-    const orderHandler = async () => {
-        await mutation.mutateAsync({
-            data: {
-                amount: getFullSum(),
-                currency: 'GEL',
-                lang: 'EN',
-                info: {
-                    name: 'Order from Abjari',
-                    description: "Sport's wear",
-                    image: 'https://payze.io/assets/images/logo_v2.svg',
-                },
-            },
-        })
-    }
-
     return (
         <Container className="cart-page flex flex-col gap-2 mt-2 mb-2 h-fit">
+            <CheckoutForm
+                onCloseForm={() => setFormIsVisible(!formIsVisible)}
+                isVisible={formIsVisible}
+                products={products}
+            />
+
             {hasMounted && products ? (
                 products?.map((item) => {
                     const cartItem = getCartItem(item._id)
                     const product = products.find(
                         (product) => product._id === cartItem?._id
                     )
-                    console.log('product', product)
 
                     if (!product) return null
 
@@ -67,6 +64,7 @@ const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
                         <CartItem
                             key={product._id}
                             name={product?.name}
+                            details={product?.details}
                             _id={product?._id}
                             pricegel={product?.pricegel}
                             image={product?.image}
@@ -94,7 +92,7 @@ const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
             <Button
                 variant="outlined"
                 fullWidth={true}
-                onClick={orderHandler}
+                onClick={() => setFormIsVisible(!formIsVisible)}
                 disabled={hasMounted && cart.length === 0}
             >
                 Order
@@ -116,9 +114,28 @@ const Cart: NextPage<{ products: IProduct[] }> = ({ products }) => {
 
 export const getServerSideProps = async () => {
     const products = await sanClient.fetch(`*[_type == "product"]`)
+    let countries
+
+    const fetchCountries = async () => {
+        const data = JSON.stringify({})
+
+        const config = {
+            method: 'get',
+            url: 'https://istore.gpost.ge/api/countries',
+            headers: {
+                Authorization: process.env.NEXT_PUBLIC_GEORGIAN_POST_AUTH,
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        }
+
+        const countriesData = await axios(config)
+        countries = countriesData.data.Countries
+    }
+    await fetchCountries()
 
     return {
-        props: { products },
+        props: { products, countries },
     }
 }
 

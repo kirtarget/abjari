@@ -2,77 +2,78 @@
 @use '../utils/' as u;
 
 .menu {
-  position: fixed;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: auto;
-  padding: 1rem 0;
-  overflow: hidden;
-  background-color: v.$background-color;
-  z-index: 9;
-  transition: all 0.4s ease-in-out;
-
-  &.is-active {
-    top: 0;
-    height: auto;
-  }
-
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 1.25rem;
-  }
-
-  &__link {
-    font-weight: 500;
-    line-height: 1.5;
-    color: v.$black-400;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-  }
-
-  &__block {
-    display: inline-block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.25;
-    white-space: nowrap;
-    text-align: center;
-    margin-left: auto;
-    padding: 0.65rem 1.5rem;
-    border-radius: 3rem;
-    text-transform: capitalize;
-    color: v.$white-100;
-    box-shadow: v.$shadow-medium;
-    transition: all 0.3s ease-in-out;
-  }
-
-  // Responsive Media Query
-  @include u.breakpoint-up(desktop) {
-    position: relative;
-    top: 0;
-    width: auto;
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
     height: auto;
     padding: 1rem 0;
-    margin-left: auto;
-    box-shadow: none;
+    overflow: hidden;
+    background-color: v.$background-color;
+    z-index: 9;
+    transition: all 0.4s ease-in-out;
+
+    &.is-active {
+        top: 0;
+        height: auto;
+    }
 
     &__inner {
-      display: flex;
-      flex-direction: row;
-      column-gap: 2rem;
-      margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 1.25rem;
     }
 
     &__link {
-      text-transform: capitalize;
+        font-weight: 500;
+        line-height: 1.5;
+        color: v.$black-400;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
 
     &__block {
-      margin-left: 2rem;
+        display: inline-block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.25;
+        white-space: nowrap;
+        text-align: center;
+        margin-left: auto;
+        padding: 0.65rem 1.5rem;
+        border-radius: 3rem;
+        text-transform: capitalize;
+        color: v.$white-100;
+        box-shadow: v.$shadow-medium;
+        transition: all 0.3s ease-in-out;
     }
-  }
+
+    // Responsive Media Query
+    @include u.breakpoint-up(desktop) {
+        position: relative;
+        top: 0;
+        width: auto;
+        height: auto;
+        padding: 1rem 0;
+        margin-left: auto;
+        box-shadow: none;
+
+        &__inner {
+            display: flex;
+            flex-direction: row;
+            column-gap: 2rem;
+            margin: 0 auto;
+        }
+
+        &__link {
+            text-transform: capitalize;
+        }
+
+        &__block {
+            margin-left: 2rem;
+        }
+    }
 }

@@ -9,6 +9,7 @@
     ],
     "rules": {
         "no-var": 0,
+        "eslint@typescript-eslint/ban-ts-comment": 0,
         "@typescript-eslint/no-non-null-asserted-optional-chain": 0
     }
 }

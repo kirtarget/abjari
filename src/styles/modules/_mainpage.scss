@@ -1,2 +1,35 @@
 @use '../vars' as v;
 @use '../utils/' as u;
+
+.wear-us__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 100%;
+
+    border-radius: 0.5rem;
+    box-shadow: v.$shadow-small;
+    padding: 1rem;
+    & p {
+        padding: 0 0.5rem;
+    }
+    & button {
+        margin-top: 1rem;
+    }
+}
+.wear-us__image {
+    & img {
+        max-width: 20rem;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+    }
+}
+
+.wear-us__container {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: scroll;
+
+    padding: 1rem;
+}

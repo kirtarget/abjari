@@ -14,6 +14,7 @@
     "sanity"
   ],
   "dependencies": {
+    "@mui/joy": "^5.0.0-alpha.52",
     "@portabletext/react": "^2.0.0",
     "@sanity/base": "^2.35.0",
     "@sanity/core": "^2.35.0",

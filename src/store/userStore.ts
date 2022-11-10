@@ -12,6 +12,8 @@ interface UserStore {
     name: string
     email: string
     avatar: string
+    size: string
+    setSize: (size: string) => void
     setUser: (user: User) => void
     cart?: { id: number; quantity: number }[]
 }
@@ -23,6 +25,8 @@ export const useUserStore = create(
             name: '',
             email: '',
             avatar: '',
+            size: '',
+            setSize: (size: string) => set({ size }),
             setUser: (user: User) =>
                 set((state) => ({
                     ...state,
