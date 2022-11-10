@@ -37,6 +37,31 @@ type IFormInputs = {
     country: string
 }
 
+// * Данные для отправки на сервер
+interface ParcelQuery {
+    ReceiverCityId: number
+    ParcelTypeId: number
+    ReceiverAddressNote: string
+    ZIP: string
+    IsExpress: boolean
+    deliveryMethod: number
+    Weight: number
+    ReceiverPerson: {
+        FirstName: string
+        LastName: string
+        Phone: string
+        Email: string
+    }
+    declarationItems: {
+        declarationItemID: number
+        comment: string
+        currencyId: number
+        itemCount: number
+        itemPrice: number
+        itemWeigth: number
+    }[]
+}
+
 // * Пропсы компонента
 interface IFormProps {
     onSubmit?: (data: IFormInputs) => void
@@ -75,6 +100,7 @@ const CheckoutForm = ({
     onCloseForm,
     isVisible,
 }: IFormProps): JSX.Element => {
+    // * Связь со стейтом корзины
     const { cart, getCartItem, getFullSum } = useCartStore(
         (state) => ({
             cart: state.cart,
@@ -83,6 +109,7 @@ const CheckoutForm = ({
         }),
         shallow
     )
+    const countries = useBearStore((state) => state.countries)
     // * Хук для работы с формой
     const {
         register,
@@ -92,55 +119,53 @@ const CheckoutForm = ({
         formState: { errors },
     } = useForm<IFormInputs>({ resolver: zodResolver(schema) })
 
+    // * Хук для проверки монтирования компонента
+    const hasMounted = useHasMounted()
+
+    // * Локальный стейт
     const [cities, setCities] = useState<CityType[]>([])
     const [countryId, setCountryId] = useState<number>(63)
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
     const [deliveryError, setDeliveryError] = useState<string>('')
     const [finalCost, setFinalCost] = useState<number>(getFullSum())
+
+    // * Переход к оплате
     const mutation = trpc.pay.useMutation()
     useEffect(() => {
-        const data = mutation.data
+        const { data } = mutation
 
         if (data === undefined) return
 
         window.location.href = data
     }, [mutation])
 
-    const countries = useBearStore((state) => state.countries)
-
-    // * Расчет веса
+    // * Расчет веса заказа
     const cartItemsWeight = () => {
         if (cart.length === 0) return 0
 
-        const itemWeight: number = cart.reduce<number>(
-            (acc: number, i: CartItem) => {
-                const { quantity } = i
+        return cart.reduce<number>((acc: number, i: CartItem) => {
+            const { quantity } = i
 
-                const product: IProduct | undefined = products.find(
-                    (product) => product._id === i._id
-                )
+            const product: IProduct | undefined = products.find(
+                (product) => product._id === i._id
+            )
 
-                if (!product) return acc
+            if (!product) return acc
 
-                const productWeight: number | undefined = Number(
-                    product.details?.find((p) => p.size === i.size)?.weight
-                )
+            const productWeight: number | undefined = Number(
+                product.details?.find((p) => p.size === i.size)?.weight
+            )
 
-                if (!productWeight) return acc
+            if (!productWeight) return acc
 
-                if (!productWeight || typeof Number(productWeight) !== 'number')
-                    return acc
+            if (!productWeight || typeof Number(productWeight) !== 'number')
+                return acc
 
-                return Number(productWeight) * quantity + acc
-            },
-            0
-        )
-
-        return itemWeight
+            return Number(productWeight) * quantity + acc
+        }, 0)
     }
 
-    // * Хук для работы с корзиной
-
+    // * Расчет стоимости доставки
     const parcelData = watch(['parcelType', 'city'])
 
     useEffect(() => {
@@ -149,7 +174,7 @@ const CheckoutForm = ({
                 const parcelPrice =
                     await trpcClient.calculateParcelPrice.mutate({
                         ParcelTypeId: Number(parcelData[0]),
-                        ReceiverCityId: parcelData[1],
+                        ReceiverCityId: Number(parcelData[1]),
                         Weight: cartItemsWeight() ?? 1,
                     })
 
@@ -165,16 +190,15 @@ const CheckoutForm = ({
         getPrice()
     }, [parcelData])
 
-    useEffect(() => {
-        trpcClient.getCity.query(countryId).then((res) => setCities(res))
-    }, [countryId])
-    // * Хук для проверки монтирования компонента
-    const hasMounted = useHasMounted()
-
     // * Смена страны
     const handleChangeCountry = (value: number) => {
         if (value) setCountryId(value)
     }
+
+    // * Получение городов
+    useEffect(() => {
+        trpcClient.getCity.query(countryId).then((res) => setCities(res))
+    }, [countryId])
 
     // * Обработчик отправки формы
     const formSubmitHandler: SubmitHandler<IFormInputs> = async (
@@ -226,32 +250,6 @@ const CheckoutForm = ({
             }
         })
 
-        // * Получение ID страны
-
-        interface ParcelQuery {
-            ReceiverCityId: number
-            ParcelTypeId: number
-            ReceiverAddressNote: string
-            ZIP: string
-            IsExpress: boolean
-            deliveryMethod: number
-            Weight: number
-            ReceiverPerson: {
-                FirstName: string
-                LastName: string
-                Phone: string
-                Email: string
-            }
-            declarationItems: {
-                declarationItemID: number
-                comment: string
-                currencyId: number
-                itemCount: number
-                itemPrice: number
-                itemWeigth: number
-            }[]
-        }
-
         // * Данные для грузинской почты
         const query = {
             ReceiverCityId: city,
@@ -270,10 +268,10 @@ const CheckoutForm = ({
             declarationItems,
         } as ParcelQuery
 
-        console.log(query)
-
+        // * Отправка данных
         trpcClient.sendParcel.mutate(query).then((res) => console.log(res))
 
+        // * Отправка данных в пейзи
         await mutation.mutateAsync({
             data: {
                 amount: +finalCost,
@@ -507,7 +505,8 @@ const CheckoutForm = ({
                                             options={countries}
                                             onChange={(e, value) => {
                                                 handleChangeCountry(
-                                                    value?.CountryId ?? 1
+                                                    Number(value?.CountryId) ??
+                                                        1
                                                 )
                                                 field.onChange(value)
                                             }}

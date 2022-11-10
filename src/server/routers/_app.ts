@@ -119,7 +119,7 @@ export const appRouter = router({
                 Weight: input.Weight, //done
                 X: 28,
                 Y: 42,
-                Z: 10,
+                Z: 8,
                 Quantity: 1,
                 Insurance: {
                     IsInsured: false,
