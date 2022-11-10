@@ -129,6 +129,7 @@ const CheckoutForm = ({
             CountryNameGe: 'Loading',
         },
     ]
+    const parcelData = watch(['parcelType', 'city', 'country'])
 
     useEffect(() => {
         const fetchCountries = async () => {
@@ -148,7 +149,7 @@ const CheckoutForm = ({
             countries = countriesData.data.Countries
         }
         fetchCountries()
-    })
+    }, [parcelData[2]])
 
     // * Хук для проверки монтирования компонента
     const hasMounted = useHasMounted()
@@ -197,7 +198,6 @@ const CheckoutForm = ({
     }
 
     // * Расчет стоимости доставки
-    const parcelData = watch(['parcelType', 'city'])
 
     useEffect(() => {
         const getPrice = async () => {
