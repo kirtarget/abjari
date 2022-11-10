@@ -49,6 +49,7 @@ const Cart: NextPage<{ products: IProduct[]; countries: CountryType[] }> = ({
                 onCloseForm={() => setFormIsVisible(!formIsVisible)}
                 isVisible={formIsVisible}
                 products={products}
+                countries={countries}
             />
 
             {hasMounted && products ? (

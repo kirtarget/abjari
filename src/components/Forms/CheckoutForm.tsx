@@ -19,7 +19,7 @@ import { CartItem, useCartStore } from '../../store/cartStore'
 import shallow from 'zustand/shallow'
 import { urlFor } from '../../lib/sanityClient'
 import { useHasMounted } from '../../Hooks/hasMounted'
-import { CityType, useBearStore } from '../../store/store'
+import { CityType, CountryType, useBearStore } from '../../store/store'
 import { useEffect, useState } from 'react'
 import { trpcClient } from '../../server/client'
 import { trpc } from '../../utils/trpc'
@@ -68,6 +68,7 @@ interface IFormProps {
     onCloseForm: () => void
     isVisible: boolean
     products: IProduct[]
+    countries: CountryType[]
 }
 
 // * Схема валидации
@@ -99,6 +100,7 @@ const CheckoutForm = ({
     products,
     onCloseForm,
     isVisible,
+    countries,
 }: IFormProps): JSX.Element => {
     // * Связь со стейтом корзины
     const { cart, getCartItem, getFullSum } = useCartStore(
@@ -109,7 +111,7 @@ const CheckoutForm = ({
         }),
         shallow
     )
-    const countries = useBearStore((state) => state.countries)
+
     // * Хук для работы с формой
     const {
         register,
