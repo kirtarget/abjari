@@ -69,7 +69,7 @@ interface IFormProps {
     onCloseForm: () => void
     isVisible: boolean
     products: IProduct[]
-    countries?: CountryType[]
+    countries: CountryType[]
 }
 
 // * Схема валидации
@@ -101,6 +101,7 @@ const CheckoutForm = ({
     products,
     onCloseForm,
     isVisible,
+    countries,
 }: IFormProps): JSX.Element => {
     // * Связь со стейтом корзины
     const { cart, getCartItem, getFullSum } = useCartStore(
@@ -121,35 +122,35 @@ const CheckoutForm = ({
         formState: { errors },
     } = useForm<IFormInputs>({ resolver: zodResolver(schema) })
 
-    let countries: CountryType[] = [
-        {
-            CountryId: 0,
-            CountryNameEn: 'Loading',
-            CountryNameRu: 'Loading',
-            CountryNameGe: 'Loading',
-        },
-    ]
-    const parcelData = watch(['parcelType', 'city', 'country'])
+    // let countries: CountryType[] = [
+    //     {
+    //         CountryId: 0,
+    //         CountryNameEn: 'Loading',
+    //         CountryNameRu: 'Loading',
+    //         CountryNameGe: 'Loading',
+    //     },
+    // ]
+    const parcelData = watch(['parcelType', 'city'])
 
-    useEffect(() => {
-        const fetchCountries = async () => {
-            const data = JSON.stringify({})
+    // useEffect(() => {
+    //     const fetchCountries = async () => {
+    //         const data = JSON.stringify({})
 
-            const config = {
-                method: 'get',
-                url: 'https://istore.gpost.ge/api/countries',
-                headers: {
-                    Authorization: process.env.NEXT_PUBLIC_GEORGIAN_POST_AUTH,
-                    'Content-Type': 'application/json',
-                },
-                data: data,
-            }
+    //         const config = {
+    //             method: 'get',
+    //             url: 'https://istore.gpost.ge/api/countries',
+    //             headers: {
+    //                 Authorization: process.env.NEXT_PUBLIC_GEORGIAN_POST_AUTH,
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             data: data,
+    //         }
 
-            const countriesData = await axios(config)
-            countries = countriesData.data.Countries
-        }
-        fetchCountries()
-    }, [parcelData[2]])
+    //         const countriesData = await axios(config)
+    //         countries = countriesData.data.Countries
+    //     }
+    //     fetchCountries()
+    // }, [parcelData[2]])
 
     // * Хук для проверки монтирования компонента
     const hasMounted = useHasMounted()
