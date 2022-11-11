@@ -13,7 +13,12 @@ const Home: NextPage<{ data: IWearUs[] }> = ({ data }) => {
         <>
             {/* <CheckoutForm /> */}
 
-            <ItemShowCase />
+            <Typography variant="h1" className="text-center">
+                The site is currently under construction, we'll be back soon
+                warriors 💪🏻
+            </Typography>
+
+            {/* <ItemShowCase />
 
             <HorizontalScroll />
 
@@ -40,7 +45,7 @@ const Home: NextPage<{ data: IWearUs[] }> = ({ data }) => {
                 {data?.map((i) => (
                     <WearUs data={i} />
                 ))}
-            </Container>
+            </Container> */}
         </>
     )
 }

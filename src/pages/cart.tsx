@@ -44,72 +44,75 @@ const Cart: NextPage<{ products: IProduct[]; countries: CountryType[] }> = ({
     }, [mutation])
 
     return (
-        <Container className="cart-page flex flex-col gap-2 mt-2 mb-2 h-fit">
-            <CheckoutForm
-                onCloseForm={() => setFormIsVisible(!formIsVisible)}
-                isVisible={formIsVisible}
-                products={products}
-                countries={countries}
-            />
-
-            {hasMounted && products ? (
-                products?.map((item) => {
-                    const cartItem = getCartItem(item._id)
-                    const product = products.find(
-                        (product) => product._id === cartItem?._id
-                    )
-
-                    if (!product) return null
-
-                    return (
-                        <CartItem
-                            key={product._id}
-                            name={product?.name}
-                            details={product?.details}
-                            _id={product?._id}
-                            pricegel={product?.pricegel}
-                            image={product?.image}
-                            shortDescription={product?.shortDescription}
-                            slug={product?.slug}
-                            description={[]}
-                        />
-                    )
-                })
-            ) : (
-                <Typography
-                    sx={{
-                        mt: 6,
-                    }}
-                    variant="h6"
-                >
-                    The cart is empty
-                </Typography>
+        <>
+            {formIsVisible && (
+                <CheckoutForm
+                    onCloseForm={() => setFormIsVisible(!formIsVisible)}
+                    isVisible={formIsVisible}
+                    products={products}
+                    countries={countries}
+                />
             )}
+            <Container className="cart-page flex flex-col gap-2 mt-2 mb-2 h-fit">
+                {hasMounted && products ? (
+                    products?.map((item) => {
+                        const cartItem = getCartItem(item._id)
+                        const product = products.find(
+                            (product) => product._id === cartItem?._id
+                        )
 
-            <div className="cart__total ">
-                <p>Total:</p>
-                <p className="">{hasMounted && getFullSum()}₾</p>
-            </div>
-            <Button
-                variant="outlined"
-                fullWidth={true}
-                onClick={() => setFormIsVisible(!formIsVisible)}
-                disabled={hasMounted && cart.length === 0}
-            >
-                Order
-            </Button>
-            <Link href="/catalog">
-                <a>
-                    <Button
-                        variant="outlined"
-                        fullWidth={true}
-                        color="secondary"
+                        if (!product) return null
+
+                        return (
+                            <CartItem
+                                key={product._id}
+                                name={product?.name}
+                                details={product?.details}
+                                _id={product?._id}
+                                pricegel={product?.pricegel}
+                                image={product?.image}
+                                shortDescription={product?.shortDescription}
+                                slug={product?.slug}
+                                description={[]}
+                            />
+                        )
+                    })
+                ) : (
+                    <Typography
+                        sx={{
+                            mt: 6,
+                        }}
+                        variant="h6"
                     >
-                        Go to catalog
-                    </Button>
-                </a>
-            </Link>
-        </Container>
+                        The cart is empty
+                    </Typography>
+                )}
+
+                <div className="cart__total ">
+                    <p>Total:</p>
+                    <p className="">{hasMounted && getFullSum()}₾</p>
+                </div>
+                <Button
+                    variant="outlined"
+                    fullWidth={true}
+                    onClick={() => setFormIsVisible(!formIsVisible)}
+                    disabled={hasMounted && cart.length === 0}
+                >
+                    Order
+                </Button>
+                <Link href="/catalog">
+                    <a>
+                        <Button
+                            variant="outlined"
+                            fullWidth={true}
+                            color="secondary"
+                        >
+                            Go to catalog
+                        </Button>
+                    </a>
+                </Link>
+            </Container>
+        </>
     )
 }
 

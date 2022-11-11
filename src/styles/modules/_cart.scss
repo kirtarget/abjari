@@ -124,6 +124,12 @@
         &_city,
         &_name,
         &_contacts {
+            @include u.breakpoint-down(desktop) {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
             & input {
                 padding: 0.5rem;
                 margin: 0.5rem 0;
