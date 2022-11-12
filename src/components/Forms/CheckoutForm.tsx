@@ -319,435 +319,433 @@ const CheckoutForm = ({
     }
 
     return (
-        <Box
+        <Backdrop
             sx={{
-                position: 'absolute',
-                top: '10%',
-                left: '10%',
-                overflow: 'scroll',
+                zIndex: 200,
+                overflowY: 'scroll',
                 height: '100%',
-                display: 'block',
+                position: 'absolute',
             }}
+            open={isVisible}
         >
-            {/* Основной контейнер */}
-            <Container
-                className="checkout-form"
-                sx={{
-                    backgroundColor: 'white',
-                    zIndex: 300,
-                    position: 'absolute',
-                    top: '10%',
-                    left: '10%',
-                    overflow: 'scroll',
-                    height: '100%',
-                    display: 'block',
-                }}
+            <Modal
+                open={isVisible}
+                disableScrollLock
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
             >
-                {/* Продукты из корзины */}
-                <Box className="checkout-form__cart">
-                    {hasMounted && products ? (
-                        products?.map((item) => {
-                            const cartItem = getCartItem(item._id)
-                            const product = products.find(
-                                (product) => product._id === cartItem?._id
-                            )
-
-                            if (!product) return null
-
-                            return (
-                                <Box
-                                    className="checkout-form__item"
-                                    key={product._id}
-                                >
-                                    <Box>
-                                        <img
-                                            src={urlFor(product.image[0]).url()}
-                                            alt=""
-                                        />
-                                    </Box>
-                                    <Box>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '0.8rem',
-                                            }}
-                                            variant="h6"
-                                        >
-                                            {product.name}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            {product.pricegel}₾
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            <span
-                                                style={{
-                                                    fontWeight: 500,
-                                                    paddingRight: 5,
-                                                }}
-                                            >
-                                                x{cartItem?.quantity}
-                                            </span>
-                                            size:
-                                            <span
-                                                style={{
-                                                    fontWeight: 500,
-                                                    paddingLeft: 5,
-                                                }}
-                                            >
-                                                {cartItem?.size}
-                                            </span>
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            )
-                        })
-                    ) : (
-                        <Typography
-                            sx={{
-                                mt: 6,
-                            }}
-                            variant="h6"
-                        >
-                            The cart is empty
-                        </Typography>
-                    )}
-                    <Typography variant="h6">
-                        Total {hasMounted && getFullSum()}₾
-                    </Typography>
-                </Box>
-
-                {/* Форма */}
-                <form
-                    className="checkout-form__form"
-                    style={{
-                        position: 'absolute',
-                        top: '10%',
-                        left: '10%',
-                        overflow: 'scroll',
-                        height: '100%',
-                        display: 'block',
-                    }}
-                    onSubmit={handleSubmit(formSubmitHandler)}
-                >
-                    <Typography variant="h4" sx={{ textAlign: 'center' }}>
-                        Checkout
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        onClick={() => onCloseForm()}
+                <Box>
+                    {/* Основной контейнер */}
+                    <Container
+                        className="checkout-form"
                         sx={{
-                            marginBottom: '1rem',
+                            backgroundColor: 'white',
+                            zIndex: 300,
                         }}
                     >
-                        Close
-                    </Button>
-                    <Box className="checkout-form__form_name">
-                        <Controller
-                            name="firstName"
-                            control={control}
-                            defaultValue="Ian"
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    sx={{
-                                        width: '50%',
-                                        padding: '1rem',
-                                    }}
-                                    label="First name"
-                                    type={'text'}
-                                    variant="outlined"
-                                    error={!!errors.firstName}
-                                    helperText={
-                                        errors.firstName
-                                            ? errors.firstName?.message
-                                            : ''
-                                    }
-                                    fullWidth={false}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="lastName"
-                            control={control}
-                            defaultValue="Smith"
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Last Name"
-                                    sx={{
-                                        width: '50%',
-                                        padding: '1rem',
-                                    }}
-                                    type={'lastName'}
-                                    variant="outlined"
-                                    error={!!errors.lastName}
-                                    helperText={
-                                        errors.lastName
-                                            ? errors.lastName?.message
-                                            : ''
-                                    }
-                                    fullWidth={false}
-                                />
-                            )}
-                        />
-                    </Box>
-                    <Box className="checkout-form__form_contacts">
-                        <Controller
-                            name="email"
-                            control={control}
-                            defaultValue="example@mail.ge"
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Email"
-                                    type={'email'}
-                                    sx={{
-                                        width: '50%',
-                                        padding: '1rem',
-                                    }}
-                                    variant="outlined"
-                                    error={!!errors.email}
-                                    helperText={
-                                        errors.email
-                                            ? errors.email?.message
-                                            : ''
-                                    }
-                                    fullWidth={false}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="phone"
-                            control={control}
-                            defaultValue="+1(234)567-89-01"
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Phone number"
-                                    sx={{
-                                        width: '50%',
-                                        padding: '1rem',
-                                    }}
-                                    variant="outlined"
-                                    error={!!errors.phone}
-                                    helperText={
-                                        errors.phone
-                                            ? errors.phone?.message
-                                            : ''
-                                    }
-                                    fullWidth={false}
-                                />
-                            )}
-                        />
-                    </Box>
-                    <Box
-                        className="checkout-form__form_city"
-                        sx={{
-                            display: 'flex',
-                        }}
-                    >
-                        <Controller
-                            name="country"
-                            control={control}
-                            render={({ field }) => (
-                                <Autocomplete
-                                    {...register('country')}
-                                    options={countries}
-                                    onChange={(e, value) => {
-                                        handleChangeCountry(
-                                            Number(value?.CountryId) ?? 1
-                                        )
-                                        field.onChange(value)
-                                    }}
-                                    fullWidth={true}
-                                    autoHighlight
-                                    getOptionLabel={(option) =>
-                                        option.CountryNameEn
-                                    }
-                                    renderOption={(props, option) => (
-                                        <Box {...props} component="li">
-                                            {option?.CountryNameEn ??
-                                                option?.CountryNameGe}
-                                        </Box>
-                                    )}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            sx={{
-                                                padding: '1rem',
-                                            }}
-                                            {...params}
-                                            label="Choose a country"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                                // autoComplete: 'new-password', // disable autocomplete and autofill
-                                            }}
-                                            error={!!errors.country}
-                                            helperText={
-                                                errors.country
-                                                    ? errors.country?.message
-                                                    : ''
-                                            }
-                                        />
-                                    )}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="city"
-                            control={control}
-                            render={({ field }) => (
-                                <Autocomplete
-                                    {...register('city')}
-                                    onChange={(e, value) =>
-                                        // setReceiverCityId(value?.CityId!)
-                                        field.onChange(value?.CityId)
-                                    }
-                                    options={cities}
-                                    isOptionEqualToValue={(option, value) =>
-                                        option.CityNameEn === value.CityNameEn
-                                    }
-                                    autoHighlight
-                                    getOptionLabel={(option) =>
-                                        option.CityNameEn
-                                    }
-                                    fullWidth={true}
-                                    disabled={cities.length === 0}
-                                    renderOption={(props, option) => (
+                        {/* Продукты из корзины */}
+                        <Box className="checkout-form__cart">
+                            {hasMounted && products ? (
+                                products?.map((item) => {
+                                    const cartItem = getCartItem(item._id)
+                                    const product = products.find(
+                                        (product) =>
+                                            product._id === cartItem?._id
+                                    )
+
+                                    if (!product) return null
+
+                                    return (
                                         <Box
-                                            {...props}
-                                            key={option.CityId}
-                                            component="li"
+                                            className="checkout-form__item"
+                                            key={product._id}
                                         >
-                                            {option?.CityNameEn ??
-                                                option?.CityNameGe}
+                                            <Box>
+                                                <img
+                                                    src={urlFor(
+                                                        product.image[0]
+                                                    ).url()}
+                                                    alt=""
+                                                />
+                                            </Box>
+                                            <Box>
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: '0.8rem',
+                                                    }}
+                                                    variant="h6"
+                                                >
+                                                    {product.name}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    {product.pricegel}₾
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    <span
+                                                        style={{
+                                                            fontWeight: 500,
+                                                            paddingRight: 5,
+                                                        }}
+                                                    >
+                                                        x{cartItem?.quantity}
+                                                    </span>
+                                                    size:
+                                                    <span
+                                                        style={{
+                                                            fontWeight: 500,
+                                                            paddingLeft: 5,
+                                                        }}
+                                                    >
+                                                        {cartItem?.size}
+                                                    </span>
+                                                </Typography>
+                                            </Box>
                                         </Box>
-                                    )}
-                                    renderInput={(params) => (
+                                    )
+                                })
+                            ) : (
+                                <Typography
+                                    sx={{
+                                        mt: 6,
+                                    }}
+                                    variant="h6"
+                                >
+                                    The cart is empty
+                                </Typography>
+                            )}
+                            <Typography variant="h6">
+                                Total {hasMounted && getFullSum()}₾
+                            </Typography>
+                        </Box>
+
+                        {/* Форма */}
+                        <form
+                            className="checkout-form__form"
+                            onSubmit={handleSubmit(formSubmitHandler)}
+                        >
+                            <Typography
+                                variant="h4"
+                                sx={{ textAlign: 'center' }}
+                            >
+                                Checkout
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                onClick={() => onCloseForm()}
+                                sx={{
+                                    marginBottom: '1rem',
+                                }}
+                            >
+                                Close
+                            </Button>
+                            <Box className="checkout-form__form_name">
+                                <Controller
+                                    name="firstName"
+                                    control={control}
+                                    defaultValue="Ian"
+                                    render={({ field }) => (
                                         <TextField
-                                            {...params}
-                                            sx={{
-                                                padding: '1rem',
-                                            }}
-                                            label="Choose a city"
-                                            inputProps={{
-                                                ...params.inputProps,
-                                            }}
-                                            error={!!errors.city}
+                                            {...field}
+                                            className="checkout-form__form-input"
+                                            label="First name"
+                                            type={'text'}
+                                            variant="outlined"
+                                            error={!!errors.firstName}
                                             helperText={
-                                                errors.city
-                                                    ? errors.city?.message
+                                                errors.firstName
+                                                    ? errors.firstName?.message
+                                                    : ''
+                                            }
+                                            fullWidth={false}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="lastName"
+                                    control={control}
+                                    defaultValue="Smith"
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Last Name"
+                                            className="checkout-form__form-input"
+                                            type={'lastName'}
+                                            variant="outlined"
+                                            error={!!errors.lastName}
+                                            helperText={
+                                                errors.lastName
+                                                    ? errors.lastName?.message
+                                                    : ''
+                                            }
+                                            fullWidth={false}
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Box className="checkout-form__form_contacts">
+                                <Controller
+                                    name="email"
+                                    control={control}
+                                    defaultValue="example@mail.ge"
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Email"
+                                            type={'email'}
+                                            className="checkout-form__form-input"
+                                            variant="outlined"
+                                            error={!!errors.email}
+                                            helperText={
+                                                errors.email
+                                                    ? errors.email?.message
+                                                    : ''
+                                            }
+                                            fullWidth={false}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="phone"
+                                    control={control}
+                                    defaultValue="+1(234)567-89-01"
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Phone number"
+                                            className="checkout-form__form-input"
+                                            variant="outlined"
+                                            error={!!errors.phone}
+                                            helperText={
+                                                errors.phone
+                                                    ? errors.phone?.message
+                                                    : ''
+                                            }
+                                            fullWidth={false}
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Box
+                                className="checkout-form__form_city"
+                                sx={{
+                                    display: 'flex',
+                                }}
+                            >
+                                <Controller
+                                    name="country"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Autocomplete
+                                            {...register('country')}
+                                            options={countries}
+                                            onChange={(e, value) => {
+                                                handleChangeCountry(
+                                                    Number(value?.CountryId) ??
+                                                        1
+                                                )
+                                                field.onChange(value)
+                                            }}
+                                            fullWidth={true}
+                                            autoHighlight
+                                            getOptionLabel={(option) =>
+                                                option.CountryNameEn
+                                            }
+                                            renderOption={(props, option) => (
+                                                <Box {...props} component="li">
+                                                    {option?.CountryNameEn ??
+                                                        option?.CountryNameGe}
+                                                </Box>
+                                            )}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    sx={{
+                                                        padding: '1rem',
+                                                    }}
+                                                    {...params}
+                                                    label="Choose a country"
+                                                    inputProps={{
+                                                        ...params.inputProps,
+                                                        // autoComplete: 'new-password', // disable autocomplete and autofill
+                                                    }}
+                                                    error={!!errors.country}
+                                                    helperText={
+                                                        errors.country
+                                                            ? errors.country
+                                                                  ?.message
+                                                            : ''
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="city"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Autocomplete
+                                            {...register('city')}
+                                            onChange={(e, value) =>
+                                                // setReceiverCityId(value?.CityId!)
+                                                field.onChange(value?.CityId)
+                                            }
+                                            options={cities}
+                                            isOptionEqualToValue={(
+                                                option,
+                                                value
+                                            ) =>
+                                                option.CityNameEn ===
+                                                value.CityNameEn
+                                            }
+                                            autoHighlight
+                                            getOptionLabel={(option) =>
+                                                option.CityNameEn
+                                            }
+                                            fullWidth={true}
+                                            disabled={cities.length === 0}
+                                            renderOption={(props, option) => (
+                                                <Box
+                                                    {...props}
+                                                    key={option.CityId}
+                                                    component="li"
+                                                >
+                                                    {option?.CityNameEn ??
+                                                        option?.CityNameGe}
+                                                </Box>
+                                            )}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    sx={{
+                                                        padding: '1rem',
+                                                    }}
+                                                    label="Choose a city"
+                                                    inputProps={{
+                                                        ...params.inputProps,
+                                                    }}
+                                                    error={!!errors.city}
+                                                    helperText={
+                                                        errors.city
+                                                            ? errors.city
+                                                                  ?.message
+                                                            : ''
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Box>
+                                <Controller
+                                    name="zip"
+                                    control={control}
+                                    rules={{ required: true }}
+                                    defaultValue={'111111'}
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            sx={{
+                                                width: '30%',
+                                            }}
+                                            className="checkout-form__form-input-wide"
+                                            {...register('zip')}
+                                            fullWidth={false}
+                                            label="Postal code"
+                                            type="number"
+                                            variant="outlined"
+                                            error={!!errors.zip}
+                                            helperText={
+                                                errors.zip
+                                                    ? errors.zip?.message
                                                     : ''
                                             }
                                         />
                                     )}
                                 />
-                            )}
-                        />
-                    </Box>
-                    <Box>
-                        <Controller
-                            name="zip"
-                            control={control}
-                            rules={{ required: true }}
-                            defaultValue={'111111'}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    sx={{
-                                        width: '30%',
-                                        padding: '1rem',
-                                    }}
-                                    {...register('zip')}
-                                    fullWidth={false}
-                                    label="Postal code"
-                                    type="number"
-                                    variant="outlined"
-                                    error={!!errors.zip}
-                                    helperText={
-                                        errors.zip ? errors.zip?.message : ''
-                                    }
+                                <Controller
+                                    name="address"
+                                    control={control}
+                                    defaultValue="Ul Pushkina"
+                                    render={({ field }) => (
+                                        <TextField
+                                            {...field}
+                                            label="Your address"
+                                            sx={{
+                                                width: '70%',
+                                            }}
+                                            className="checkout-form__form-input-wide"
+                                            variant="outlined"
+                                            error={!!errors.address}
+                                            helperText={
+                                                errors.address
+                                                    ? errors.address?.message
+                                                    : ''
+                                            }
+                                        />
+                                    )}
                                 />
-                            )}
-                        />
-                        <Controller
-                            name="address"
-                            control={control}
-                            defaultValue="Ul Pushkina"
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Your address"
-                                    sx={{
-                                        padding: '1rem',
-                                        width: '70%',
-                                    }}
-                                    variant="outlined"
-                                    error={!!errors.address}
-                                    helperText={
-                                        errors.address
-                                            ? errors.address?.message
-                                            : ''
-                                    }
+                            </Box>
+                            <Box>
+                                <Controller
+                                    name="parcelType"
+                                    control={control}
+                                    defaultValue={69.0}
+                                    render={({ field }) => (
+                                        <RadioGroup {...field}>
+                                            <FormControlLabel
+                                                value={69.0}
+                                                control={<Radio size="small" />}
+                                                label="Avia - 3-6 days"
+                                            />
+                                            <FormControlLabel
+                                                value={40.0}
+                                                control={<Radio size="small" />}
+                                                label="Plain delivery - 7-21 days"
+                                            />
+                                            <FormControlLabel
+                                                value={39.0}
+                                                control={<Radio size="small" />}
+                                                label="Local delivery - 1-5 days"
+                                            />
+                                            <FormControlLabel
+                                                value={55.0}
+                                                control={<Radio size="small" />}
+                                                label="EMS - 6-9 days"
+                                            />
+                                        </RadioGroup>
+                                    )}
                                 />
-                            )}
-                        />
-                    </Box>
-                    <Box>
-                        <Controller
-                            name="parcelType"
-                            control={control}
-                            defaultValue={69.0}
-                            render={({ field }) => (
-                                <RadioGroup {...field}>
-                                    <FormControlLabel
-                                        value={69.0}
-                                        control={<Radio size="small" />}
-                                        label="Avia - 3-6 days"
-                                    />
-                                    <FormControlLabel
-                                        value={40.0}
-                                        control={<Radio size="small" />}
-                                        label="Plain delivery - 7-21 days"
-                                    />
-                                    <FormControlLabel
-                                        value={39.0}
-                                        control={<Radio size="small" />}
-                                        label="Local delivery - 1-5 days"
-                                    />
-                                    <FormControlLabel
-                                        value={55.0}
-                                        control={<Radio size="small" />}
-                                        label="EMS - 6-9 days"
-                                    />
-                                </RadioGroup>
-                            )}
-                        />
 
-                        <Box>
-                            {hasMounted && !deliveryError && (
-                                <Typography variant="h6">
-                                    The total cost of your parcel with Delivery:{' '}
-                                    {getFullSum() + deliveryPrice}
-                                </Typography>
-                            )}
-                            {hasMounted && deliveryError && (
-                                <Typography variant="h6">
-                                    {deliveryError}
-                                </Typography>
-                            )}
-                        </Box>
-                    </Box>
+                                <Box>
+                                    {hasMounted && !deliveryError && (
+                                        <Typography variant="h6">
+                                            The total cost of your parcel with
+                                            Delivery:{' '}
+                                            {getFullSum() + deliveryPrice}₾
+                                        </Typography>
+                                    )}
+                                    {hasMounted && deliveryError && (
+                                        <Typography variant="h6">
+                                            {deliveryError}
+                                        </Typography>
+                                    )}
+                                </Box>
+                            </Box>
 
-                    <Button
-                        variant="contained"
-                        fullWidth={true}
-                        type="submit"
-                        disabled={deliveryError.length > 0}
-                    >
-                        Go to payment
-                    </Button>
-                </form>
-            </Container>
-        </Box>
+                            <Button
+                                variant="contained"
+                                fullWidth={true}
+                                type="submit"
+                                disabled={deliveryError.length > 0}
+                            >
+                                Go to payment
+                            </Button>
+                        </form>
+                    </Container>
+                </Box>
+            </Modal>
+        </Backdrop>
     )
 }
 
