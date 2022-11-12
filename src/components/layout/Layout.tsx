@@ -5,7 +5,7 @@ import { Container } from '@mui/material'
 
 const Layout = ({ children }: { children: ReactNode }): JSX.Element => {
     return (
-        <Container>
+        <Container className="layout">
             <Header />
             <Container className="container">{children}</Container>
 

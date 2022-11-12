@@ -19,7 +19,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-    background-color: v.$background-color;
+    background-color: v.$white-100;
 }
 
 .container {
@@ -41,4 +41,14 @@ body {
 .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    justify-content: space-between;
+    background-color: v.$white-100;
 }

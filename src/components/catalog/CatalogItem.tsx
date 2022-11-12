@@ -142,7 +142,7 @@ const CatalogItem = ({
                         }}
                         onClick={addToCartHandler}
                         fullWidth={true}
-                        variant="outlined"
+                        variant="contained"
                     >
                         Add to Cart
                     </Button>

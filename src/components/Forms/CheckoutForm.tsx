@@ -321,10 +321,7 @@ const CheckoutForm = ({
     return (
         <Backdrop
             sx={{
-                zIndex: 200,
-                overflowY: 'scroll',
                 height: '100%',
-                position: 'absolute',
             }}
             open={isVisible}
         >
@@ -340,7 +337,6 @@ const CheckoutForm = ({
                         className="checkout-form"
                         sx={{
                             backgroundColor: 'white',
-                            zIndex: 300,
                         }}
                     >
                         {/* Продукты из корзины */}

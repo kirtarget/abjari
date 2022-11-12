@@ -2,10 +2,11 @@ import CatalogItem from '../../components/catalog/CatalogItem'
 import { GetServerSideProps, NextPage } from 'next'
 import { sanClient } from '../../lib/sanityClient'
 import { IProduct } from '../../lib/types/productType'
+import { Container } from '@mui/material'
 
 const Catalog: NextPage<{ products: IProduct[] }> = ({ products }) => {
     return (
-        <div>
+        <Container className="products-page">
             {products?.map(
                 (item: IProduct): JSX.Element => (
                     <CatalogItem
@@ -20,7 +21,7 @@ const Catalog: NextPage<{ products: IProduct[] }> = ({ products }) => {
                     />
                 )
             )}
-        </div>
+        </Container>
     )
 }
 

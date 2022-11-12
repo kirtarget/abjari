@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles'
 import { red } from '@mui/material/colors'
-import { CssVarsProvider, extendTheme } from '@mui/joy/styles'
+import { extendTheme } from '@mui/joy/styles'
 
 declare module '@mui/joy/styles' {
     interface Palette {
@@ -21,6 +21,9 @@ const theme = createTheme({
             main: '#e1306c',
         },
 
+        background: {
+            default: '#e4f0e2',
+        },
         error: {
             main: red.A400,
         },

@@ -2,7 +2,9 @@
 @use '../utils/' as u;
 
 .swiper {
-  &__image {
-    width: 100%;
-  }
+    z-index: 10;
+    &__image {
+        z-index: 10;
+        width: 100%;
+    }
 }
