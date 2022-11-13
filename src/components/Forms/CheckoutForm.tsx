@@ -281,7 +281,7 @@ const CheckoutForm = ({
                 amount: +finalCost,
                 currency: 'GEL',
                 lang: 'EN',
-                id: Math.random().toString(36).substring(7),
+
                 info: {
                     name: products[0].name,
                     description: 'Your order from Abjari',

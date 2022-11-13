@@ -248,7 +248,6 @@ export const appRouter = router({
                     amount: z.number(),
                     currency: z.string(),
                     lang: z.string(),
-                    id: z.string(),
                     info: z.object({
                         description: z.string(),
                         image: z.string(),
@@ -259,50 +258,33 @@ export const appRouter = router({
         )
         .mutation(async ({ input }) => {
             try {
-                const options = {
+                const res = await fetch('https://payze.io/api/v1', {
                     method: 'POST',
-                    url: 'https://payze.io/api/v1',
                     headers: {
-                        accept: 'application/json',
-                        'content-type': 'application/json',
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
                     },
-                    data: {
+                    body: JSON.stringify({
                         method: 'justPay',
                         apiKey: process.env.NEXT_PUBLIC_PAYZY_API_KEY,
                         apiSecret: process.env.NEXT_PUBLIC_PAYZY_API_SECRET,
                         data: {
-                            amount: 1,
-                            currency: 'GEL',
-                            callback: 'https://abjari.com',
-                            callbackError: 'https://abjari.com',
+                            amount: input.data.amount,
+                            currency: input.data.currency || 'USD',
+                            callback: 'https://abjari.vercel.app/',
+                            callbackError: 'https://abjari.vercel.app/cart',
                             preauthorize: false,
-                            lang: 'EN',
-                            hookUrl: `https://abjari.com/api/trpc/updatepayment?id=${input.data.id}`,
-                            info: {
-                                description: input.data.info.description,
-                                image: input.data.info.image,
-                                name: input.data.info.name,
-                            },
+                            lang: input.data.lang || 'GEL',
+                            hookUrl:
+                                'https://corp.com/payze_hook?authorization_token=token',
                             hookRefund: false,
                         },
-                    },
-                }
+                    }),
+                })
 
-                // axios
-                //     .request(options)
-                //     .then(function (response) {
-                //         console.log(response.data)
-                //     })
-                //     .catch(function (error) {
-                //         console.error(error)
-                //     })
-                const res = await axios.request(options)
+                const data = await res.json()
 
-                const data = await res.data.json()
-
-                console.log(data)
-
-                const url = data.transactionUrl
+                const url = await data.response.transactionUrl
 
                 return url
             } catch (e) {
