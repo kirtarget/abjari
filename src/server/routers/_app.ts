@@ -248,6 +248,7 @@ export const appRouter = router({
                     amount: z.number(),
                     currency: z.string(),
                     lang: z.string(),
+                    id: z.string(),
                     info: z.object({
                         description: z.string(),
                         image: z.string(),
@@ -258,33 +259,50 @@ export const appRouter = router({
         )
         .mutation(async ({ input }) => {
             try {
-                const res = await fetch('https://payze.io/api/v1', {
+                const options = {
                     method: 'POST',
+                    url: 'https://payze.io/api/v1',
                     headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
+                        accept: 'application/json',
+                        'content-type': 'application/json',
                     },
-                    body: JSON.stringify({
+                    data: {
                         method: 'justPay',
                         apiKey: process.env.NEXT_PUBLIC_PAYZY_API_KEY,
                         apiSecret: process.env.NEXT_PUBLIC_PAYZY_API_SECRET,
                         data: {
-                            amount: input.data.amount,
-                            currency: input.data.currency || 'USD',
-                            callback: 'https://abjari.vercel.app/',
-                            callbackError: 'https://abjari.vercel.app/cart',
+                            amount: 1,
+                            currency: 'GEL',
+                            callback: 'https://abjari.com',
+                            callbackError: 'https://abjari.com',
                             preauthorize: false,
-                            lang: input.data.lang || 'GEL',
-                            hookUrl:
-                                'https://corp.com/payze_hook?authorization_token=token',
+                            lang: 'EN',
+                            hookUrl: `https://abjari.com/api/trpc/updatepayment?id=${input.data.id}`,
+                            info: {
+                                description: input.data.info.description,
+                                image: input.data.info.image,
+                                name: input.data.info.name,
+                            },
                             hookRefund: false,
                         },
-                    }),
-                })
+                    },
+                }
 
-                const data = await res.json()
+                // axios
+                //     .request(options)
+                //     .then(function (response) {
+                //         console.log(response.data)
+                //     })
+                //     .catch(function (error) {
+                //         console.error(error)
+                //     })
+                const res = await axios.request(options)
 
-                const url = await data.response.transactionUrl
+                const data = await res.data.json()
+
+                console.log(data)
+
+                const url = data.transactionUrl
 
                 return url
             } catch (e) {

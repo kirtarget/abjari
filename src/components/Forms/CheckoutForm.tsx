@@ -122,35 +122,7 @@ const CheckoutForm = ({
         formState: { errors },
     } = useForm<IFormInputs>({ resolver: zodResolver(schema) })
 
-    // let countries: CountryType[] = [
-    //     {
-    //         CountryId: 0,
-    //         CountryNameEn: 'Loading',
-    //         CountryNameRu: 'Loading',
-    //         CountryNameGe: 'Loading',
-    //     },
-    // ]
     const parcelData = watch(['parcelType', 'city'])
-
-    // useEffect(() => {
-    //     const fetchCountries = async () => {
-    //         const data = JSON.stringify({})
-
-    //         const config = {
-    //             method: 'get',
-    //             url: 'https://istore.gpost.ge/api/countries',
-    //             headers: {
-    //                 Authorization: process.env.NEXT_PUBLIC_GEORGIAN_POST_AUTH,
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             data: data,
-    //         }
-
-    //         const countriesData = await axios(config)
-    //         countries = countriesData.data.Countries
-    //     }
-    //     fetchCountries()
-    // }, [parcelData[2]])
 
     // * Хук для проверки монтирования компонента
     const hasMounted = useHasMounted()
@@ -309,10 +281,11 @@ const CheckoutForm = ({
                 amount: +finalCost,
                 currency: 'GEL',
                 lang: 'EN',
+                id: Math.random().toString(36).substring(7),
                 info: {
-                    name: 'Order from Abjari',
-                    description: "Sport's wear",
-                    image: 'https://payze.io/assets/images/logo_v2.svg',
+                    name: products[0].name,
+                    description: 'Your order from Abjari',
+                    image: urlFor(products[0].image[0]).url(),
                 },
             },
         })
