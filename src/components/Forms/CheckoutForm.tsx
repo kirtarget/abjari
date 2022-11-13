@@ -24,6 +24,7 @@ import { useEffect, useState } from 'react'
 import { trpcClient } from '../../server/client'
 import { trpc } from '../../utils/trpc'
 import axios from 'axios'
+import Footer from '../layout/Footer'
 
 // * Валидация формы
 type IFormInputs = {
@@ -175,6 +176,7 @@ const CheckoutForm = ({
     // * Расчет стоимости доставки
 
     useEffect(() => {
+        setIsButtonDisabled(true)
         const getPrice = async () => {
             if (parcelData[0] !== undefined && parcelData[1] !== undefined) {
                 const parcelPrice =
@@ -194,6 +196,7 @@ const CheckoutForm = ({
             }
         }
         getPrice()
+        setIsButtonDisabled(false)
     }, [parcelData])
 
     // * Смена страны
@@ -714,6 +717,7 @@ const CheckoutForm = ({
                             >
                                 Go to payment
                             </Button>
+                            <Footer />
                         </form>
                     </Container>
                 </Box>
