@@ -133,6 +133,7 @@ const CheckoutForm = ({
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
     const [deliveryError, setDeliveryError] = useState<string>('')
     const [finalCost, setFinalCost] = useState<number>(getFullSum())
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
     // * Переход к оплате
     const mutation = trpc.pay.useMutation()
@@ -140,6 +141,7 @@ const CheckoutForm = ({
         const { data } = mutation
 
         if (data === undefined) return
+        setIsButtonDisabled(true)
 
         window.location.href = data
     }, [mutation])
@@ -706,7 +708,9 @@ const CheckoutForm = ({
                                 variant="contained"
                                 fullWidth={true}
                                 type="submit"
-                                disabled={deliveryError.length > 0}
+                                disabled={
+                                    deliveryError.length > 0 || isButtonDisabled
+                                }
                             >
                                 Go to payment
                             </Button>
