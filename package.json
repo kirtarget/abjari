@@ -23,6 +23,7 @@
     "@mui/base": "^5.0.0-alpha.104",
     "@mui/icons-material": "^5.10.9",
     "@mui/joy": "^5.0.0-alpha.52",
+    "@mui/lab": "^5.0.0-alpha.107",
     "@mui/material": "^5.10.12",
     "@mui/styles": "^5.10.10",
     "@next/font": "^13.0.2",

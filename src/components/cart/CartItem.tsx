@@ -1,10 +1,11 @@
 import { useCartStore } from '../../store/cartStore'
-import { Box, Grid, MenuItem, Select } from '@mui/material'
+import { Box, Grid, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { Typography } from '@mui/material'
 import { urlFor } from '../../lib/sanityClient'
 import { PortableText } from '@portabletext/react'
 import { IProduct } from '../../lib/types/productType'
 import { useState } from 'react'
+import Link from 'next/link'
 
 export const CartItem = ({
     name,
@@ -13,6 +14,7 @@ export const CartItem = ({
     shortDescription,
     image,
     pricegel,
+    slug,
 }: IProduct) => {
     const [size, setSize] = useState('M')
     const getItemQuantity = useCartStore((state) => state.getItemQuantity)
@@ -26,7 +28,7 @@ export const CartItem = ({
     const getUniqSum = useCartStore((state) => state.getUniqSum)
     const setItemSize = useCartStore((state) => state.setItemSize)
 
-    const changeSizehandler = (e: any): void => {
+    const changeSizehandler = (e: SelectChangeEvent<string>): void => {
         setItemSize(_id, e.target.value)
         setSize(e.target.value)
         console.table(cart)
@@ -42,16 +44,18 @@ export const CartItem = ({
             }}
             className="cart__item"
         >
-            <Grid item xs={12} md={4}>
-                <img
-                    className=""
-                    src={
-                        urlFor(image?.[0])?.url() ??
-                        'https://cdn.sstatic.net/Sites/apple/Img/logo.svg?v=7a390e34f55f'
-                    }
-                    alt={name}
-                />
-            </Grid>
+            <Link href={`/product/${slug.current}`}>
+                <Grid item xs={12} md={4}>
+                    <img
+                        className=""
+                        src={
+                            urlFor(image?.[0])?.url() ??
+                            'https://cdn.sstatic.net/Sites/apple/Img/logo.svg?v=7a390e34f55f'
+                        }
+                        alt={name}
+                    />
+                </Grid>
+            </Link>
             <Grid
                 item
                 xs={12}

@@ -11,6 +11,8 @@ import {
     Autocomplete,
     Modal,
 } from '@mui/material'
+import SaveIcon from '@mui/icons-material/Save'
+import LoadingButton from '@mui/lab/LoadingButton'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -134,7 +136,7 @@ const CheckoutForm = ({
     const [deliveryPrice, setDeliveryPrice] = useState<number>(0)
     const [deliveryError, setDeliveryError] = useState<string>('')
     const [finalCost, setFinalCost] = useState<number>(getFullSum())
-    const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
     // * Переход к оплате
     const mutation = trpc.pay.useMutation()
@@ -196,12 +198,13 @@ const CheckoutForm = ({
             }
         }
         getPrice()
-        setIsButtonDisabled(false)
+        if (deliveryPrice) setIsButtonDisabled(false)
     }, [parcelData])
 
     // * Смена страны
     const handleChangeCountry = (value: number) => {
         if (value) setCountryId(value)
+        setIsButtonDisabled(false)
     }
 
     // * Получение городов
@@ -664,7 +667,6 @@ const CheckoutForm = ({
                                 <Controller
                                     name="parcelType"
                                     control={control}
-                                    defaultValue={69.0}
                                     render={({ field }) => (
                                         <RadioGroup {...field}>
                                             <FormControlLabel
@@ -707,16 +709,15 @@ const CheckoutForm = ({
                                 </Box>
                             </Box>
 
-                            <Button
+                            <LoadingButton
                                 variant="contained"
                                 fullWidth={true}
                                 type="submit"
-                                disabled={
-                                    deliveryError.length > 0 || isButtonDisabled
-                                }
+                                loading={deliveryError.length > 0}
+                                disabled={isButtonDisabled}
                             >
                                 Go to payment
-                            </Button>
+                            </LoadingButton>
                             <Footer />
                         </form>
                     </Container>
