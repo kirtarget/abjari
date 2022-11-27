@@ -23,11 +23,7 @@ const Header = () => {
         <Box>
             <Head>
                 <title>Abjari</title>
-                <meta name="mailru-domain" content="mBjrWkAY7L1hmRn3" />
-                <meta
-                    name="description"
-                    content="Number one sport gear in Georgia"
-                />
+
                 <link rel="icon" href="/assets/favicon.png" />
             </Head>
 

@@ -10,6 +10,11 @@ export default class MyDocument extends Document {
             <Html lang="en">
                 <Head>
                     {/* PWA primary color */}
+                    <meta name="mailru-domain" content="mBjrWkAY7L1hmRn3" />
+                    <meta
+                        name="description"
+                        content="Number one sport gear in Georgia"
+                    />
 
                     <link rel="shortcut icon" href="/favicon.ico" />
                     <meta name="emotion-insertion-point" content="" />
