@@ -34,7 +34,7 @@ const Header = () => {
                             <img src="/assets/logo.png" alt="Abjari Logo" />
                         </a>
                     </Link>
-
+                    {/*                     
                     <Box
                         className={`header__burger ${
                             isMenuVisible ? 'is-active' : ''
@@ -58,7 +58,7 @@ const Header = () => {
                             session={session}
                             status={status}
                         />
-                    </Box>
+                    </Box> */}
                 </nav>
             </Box>
         </Box>
